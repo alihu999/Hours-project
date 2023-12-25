@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:hours/core/constant/app_routes.dart';
 
 abstract class HomePageController extends GetxController {
   updateTime();
+  checkOwnerPassword();
 }
 
 class HomePageControllerImp extends HomePageController {
@@ -26,5 +28,10 @@ class HomePageControllerImp extends HomePageController {
       hours = DateTime.now().hour;
       minute.value = DateTime.now().minute;
     });
+  }
+
+  @override
+  checkOwnerPassword() {
+    Get.offNamed(AppRoutes.ownerPage);
   }
 }

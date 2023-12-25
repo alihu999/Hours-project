@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hours/routes.dart';
+import 'package:hours/theme.dart';
 import 'package:hours/view/home_page/home_page.dart';
 import 'package:get/get.dart';
 
@@ -11,9 +13,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      routes: routes,
+      home: const HomePage(),
+      theme: apptheme,
     );
   }
 }

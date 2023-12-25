@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:hours/controller/home_page_controller.dart';
-import 'package:hours/core/constant/app_colors.dart';
 
+import '../../../core/constant/app_colors.dart';
 import '../../../core/share/custom_textfiled.dart';
 
-class ChangeModeDialog extends GetView<HomePageControllerImp> {
-  const ChangeModeDialog({super.key});
+class AddEmployeDialog extends StatelessWidget {
+  const AddEmployeDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,24 +13,22 @@ class ChangeModeDialog extends GetView<HomePageControllerImp> {
       height: 200,
       child: Column(
         children: [
-          const Text("Please Enter password"),
+          const Text("Please Enter employe Name"),
           const SizedBox(
             height: 25,
           ),
           CustomTextFiled(
-            lable: "password",
+            lable: "employe Name",
             isPassword: true,
-            filedColors: AppColors.firstColors,
+            filedColors: AppColors.secondColors,
             suffixicon: const Icon(Icons.lock_outline),
           ),
           const SizedBox(
             height: 50,
           ),
           MaterialButton(
-              color: AppColors.firstColors,
-              onPressed: () {
-                controller.checkOwnerPassword();
-              },
+              color: AppColors.secondColors,
+              onPressed: () {},
               child: const Text(
                 "Submit",
                 style: TextStyle(color: Colors.white),

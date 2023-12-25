@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(
                   Icons.security,
                 ),
-                color: Colors.white,
                 onPressed: () {
                   Get.defaultDialog(
                       title: "Owner Mode",
