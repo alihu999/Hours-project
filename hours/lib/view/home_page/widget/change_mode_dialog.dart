@@ -24,6 +24,11 @@ class ChangeModeDialog extends GetView<HomePageControllerImp> {
             isPassword: true,
             filedColors: AppColors.firstColors,
             suffixicon: const Icon(Icons.lock_outline),
+            formState: controller.nameFormState,
+            textController: controller.nameController,
+            validator: (val) {
+              return null;
+            },
           ),
           const SizedBox(
             height: 50,

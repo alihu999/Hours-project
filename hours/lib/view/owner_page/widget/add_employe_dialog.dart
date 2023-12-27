@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hours/controller/owner_page_controller.dart';
 
 import '../../../core/constant/app_colors.dart';
+import '../../../core/function/validate_form.dart';
 import '../../../core/share/custom_textfiled.dart';
 
-class AddEmployeDialog extends StatelessWidget {
+class AddEmployeDialog extends GetView<OwnerPageControllerImp> {
   const AddEmployeDialog({super.key});
 
   @override
@@ -19,16 +22,21 @@ class AddEmployeDialog extends StatelessWidget {
           ),
           CustomTextFiled(
             lable: "employe Name",
-            isPassword: true,
+            isPassword: false,
             filedColors: AppColors.secondColors,
             suffixicon: const Icon(Icons.lock_outline),
+            validator: (val) => validationEmployeName(val!),
+            textController: controller.nameController,
+            formState: controller.nameFormState,
           ),
           const SizedBox(
             height: 50,
           ),
           MaterialButton(
               color: AppColors.secondColors,
-              onPressed: () {},
+              onPressed: () {
+                controller.addEmploye();
+              },
               child: const Text(
                 "Submit",
                 style: TextStyle(color: Colors.white),

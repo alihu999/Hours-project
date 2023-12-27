@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hours/core/constant/app_routes.dart';
 
@@ -16,8 +17,13 @@ class HomePageControllerImp extends HomePageController {
   int month = DateTime.now().month;
   int day = DateTime.now().day;
 
+  late TextEditingController nameController;
+  late GlobalKey<FormState> nameFormState;
+
   @override
   void onInit() {
+    nameController = TextEditingController();
+    nameFormState = GlobalKey<FormState>();
     super.onInit();
     updateTime();
   }

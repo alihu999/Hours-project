@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hours/controller/owner_page_controller.dart';
 import 'package:hours/core/constant/app_colors.dart';
 
 import 'widget/add_employe_dialog.dart';
@@ -10,6 +11,7 @@ class OwnerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(OwnerPageControllerImp());
     return Scaffold(
       appBar: AppBar(
         title: const Text(

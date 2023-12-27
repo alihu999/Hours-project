@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "753708941205",
+    "project_id": "hours-19c08",
+    "storage_bucket": "hours-19c08.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753708941205:android:141a866495feaf5b9cc09c",
+        "android_client_info": {
+          "package_name": "com.example.hours"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtoXIN3L0Pko2lKFH88D3gq7gNBiiDdR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
