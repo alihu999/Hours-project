@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hours/controller/employe_controller.dart';
 import 'package:hours/controller/home_page_controller.dart';
 import 'package:hours/core/constant/app_colors.dart';
 
@@ -20,6 +21,8 @@ class _HomePageState extends State<HomePage> {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width > 400 ? false : true;
     Get.put(HomePageControllerImp(), permanent: true);
+    Get.put(EmployeControllerImp(), permanent: true);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -45,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Row(
-        children: [const EmployeList(), if (!isMobile) const ClockDate()],
+        children: [const EmployeList(), if (isMobile) const ClockDate()],
       ),
     );
   }

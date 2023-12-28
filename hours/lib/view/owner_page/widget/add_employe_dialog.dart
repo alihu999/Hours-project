@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hours/controller/owner_page_controller.dart';
+import 'package:hours/controller/employe_controller.dart';
 
 import '../../../core/constant/app_colors.dart';
 import '../../../core/function/validate_form.dart';
 import '../../../core/share/custom_textfiled.dart';
 
-class AddEmployeDialog extends GetView<OwnerPageControllerImp> {
+class AddEmployeDialog extends GetView<EmployeControllerImp> {
   const AddEmployeDialog({super.key});
 
   @override
@@ -30,7 +30,7 @@ class AddEmployeDialog extends GetView<OwnerPageControllerImp> {
             formState: controller.nameFormState,
           ),
           const SizedBox(
-            height: 50,
+            height: 20,
           ),
           MaterialButton(
               color: AppColors.secondColors,
