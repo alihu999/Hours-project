@@ -13,24 +13,28 @@ class AddEmployeDialog extends GetView<EmployeControllerImp> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(right: 15, left: 15),
-      height: 200,
+      height: 300,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           const Text("Please Enter employe Name"),
-          const SizedBox(
-            height: 25,
-          ),
           CustomTextFiled(
-            lable: "employe Name",
+            lable: "First Name",
             isPassword: false,
             filedColors: AppColors.secondColors,
             suffixicon: const Icon(Icons.lock_outline),
             validator: (val) => validationEmployeName(val!),
-            textController: controller.nameController,
-            formState: controller.nameFormState,
+            textController: controller.firstNameController,
+            formState: controller.firstNameFormState,
           ),
-          const SizedBox(
-            height: 20,
+          CustomTextFiled(
+            lable: "Last Name",
+            isPassword: false,
+            filedColors: AppColors.secondColors,
+            suffixicon: const Icon(Icons.lock_outline),
+            validator: (val) => validationEmployeName(val!),
+            textController: controller.lastNameController,
+            formState: controller.lastNameFormState,
           ),
           MaterialButton(
               color: AppColors.secondColors,

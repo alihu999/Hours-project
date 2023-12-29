@@ -1,22 +1,21 @@
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import '../model/employe_model.dart';
 
 class MyServices extends GetxService {
-  Box? employeBox;
-
   Future<MyServices> init() async {
-    employeBox = await openHiveBox("EmployeBox");
-
+    await initHiveBox();
     return this;
   }
 
-  Future<Box> openHiveBox(String boxname) async {
-    if (!Hive.isBoxOpen(boxname)) {
-      Hive.init((await getApplicationDocumentsDirectory()).path);
-    }
-    return await Hive.openBox(boxname);
+  initHiveBox() async {
+    await Hive.initFlutter();
+    Hive.registerAdapter(EmployeAdapter());
+    await Hive.openBox<Employe>("EmployeBox");
   }
+
+  static Box<Employe> getEmploye() => Hive.box<Employe>("EmployeBox");
 }
 
 initialServices() async {
