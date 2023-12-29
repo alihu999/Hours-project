@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:hours/core/model/employe_model.dart';
 import 'package:hours/core/services/services.dart';
 
+import '../core/share/custom_snackbar.dart';
+
 abstract class EmployeController extends GetxController {
   addEmploye();
   getEmployes();
@@ -18,7 +20,7 @@ class EmployeControllerImp extends EmployeController {
   late GlobalKey<FormState> firstNameFormState;
   late GlobalKey<FormState> lastNameFormState;
 
-  List<Employe> employList = [];
+  RxList<Employe> employList = <Employe>[].obs;
 
   @override
   void onInit() {
@@ -48,17 +50,18 @@ class EmployeControllerImp extends EmployeController {
         ..lastName = lastNameController.text
         ..status = "isStoped";
       MyServices.getEmploye().add(employe);
+      firstNameController.clear();
+      lastNameController.clear();
       Get.back();
-      firstNameController.clear;
-      lastNameController.clear;
+      successfulSnackBar("The employee record has been adedd successfully");
+
       getEmployes();
     }
   }
 
   @override
   getEmployes() {
-    employList = MyServices.getEmploye().values.toList();
-    print(employList);
+    employList.value = MyServices.getEmploye().values.toList();
   }
 
   @override
@@ -71,6 +74,9 @@ class EmployeControllerImp extends EmployeController {
   @override
   deleteEmploye(Employe employe) {
     employe.delete();
+    Get.back();
+    successfulSnackBar("The employee record has been deleted successfully");
+    getEmployes();
   }
 
   @override
@@ -78,9 +84,7 @@ class EmployeControllerImp extends EmployeController {
     for (int i = 0; i < employList.length; i++) {
       if (employList[i].firstName == firstNameController.text &&
           employList[i].lastName == lastNameController.text) {
-        Get.snackbar(" Error", "The employe name is exist",
-            duration: const Duration(seconds: 5),
-            snackPosition: SnackPosition.BOTTOM);
+        errorSnackBar("The employe name is exist");
         return true;
       }
     }

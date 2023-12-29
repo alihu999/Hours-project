@@ -24,6 +24,7 @@ class CustomTextFiled extends StatelessWidget {
       key: formState,
       child: TextFormField(
         obscureText: isPassword,
+        cursorColor: filedColors,
         decoration: InputDecoration(
             label: Text(lable),
             labelStyle: TextStyle(color: filedColors),

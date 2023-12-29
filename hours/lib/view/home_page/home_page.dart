@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width > 400 ? false : true;
     Get.put(HomePageControllerImp(), permanent: true);
-    Get.put(EmployeControllerImp(), permanent: true);
+    Get.put(EmployeControllerImp());
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Row(
-        children: [const EmployeList(), if (isMobile) const ClockDate()],
+        children: [const EmployeList(), if (!isMobile) const ClockDate()],
       ),
     );
   }

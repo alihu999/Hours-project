@@ -13,7 +13,7 @@ class ClockDate extends GetView<HomePageControllerImp> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
-        width: width - 200,
+        width: width - 225,
         height: height,
         alignment: Alignment.center,
         color: Colors.white,
