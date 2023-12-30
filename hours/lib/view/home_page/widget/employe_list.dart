@@ -12,7 +12,6 @@ class EmployeList extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width > 450 ? false : true;
-    List employee = ["ali almostfa ", "alooosh "];
 
     return Container(
       color: AppColors.firstColors.withOpacity(0.25),
@@ -38,8 +37,10 @@ class EmployeList extends StatelessWidget {
                           : Colors.blue,
                 ),
                 onTap: () {
+                  controller.employeIndex = index;
                   Get.defaultDialog(
-                      title: employee[index],
+                      title:
+                          "${controller.employList[index].firstName} ${controller.employList[index].lastName}",
                       titleStyle: const TextStyle(fontSize: 25),
                       content: const EmployeDialog());
                 },

@@ -17,13 +17,13 @@ class HomePageControllerImp extends HomePageController {
   int month = DateTime.now().month;
   int day = DateTime.now().day;
 
-  late TextEditingController nameController;
-  late GlobalKey<FormState> nameFormState;
+  late TextEditingController passwordController;
+  late GlobalKey<FormState> passwordFormState;
 
   @override
   void onInit() {
-    nameController = TextEditingController();
-    nameFormState = GlobalKey<FormState>();
+    passwordController = TextEditingController();
+    passwordFormState = GlobalKey<FormState>();
     super.onInit();
     updateTime();
   }

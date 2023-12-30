@@ -25,11 +25,15 @@ class AddEmployeDialog extends GetView<EmployeControllerImp> {
             suffixicon: const Icon(Icons.person),
             validator: (val) => validationEmployeName(val!),
             textController: controller.firstNameController,
+            onFieldSubmitted: (val) {
+              FocusScope.of(context).requestFocus(controller.lastNameFocusNode);
+            },
             formState: controller.firstNameFormState,
           ),
           CustomTextFiled(
             lable: "Last Name",
             isPassword: false,
+            focusNode: controller.lastNameFocusNode,
             filedColors: AppColors.secondColors,
             suffixicon: const Icon(Icons.person),
             validator: (val) => validationEmployeName(val!),

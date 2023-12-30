@@ -8,6 +8,8 @@ class CustomTextFiled extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController textController;
   final GlobalKey<FormState> formState;
+  final FocusNode? focusNode;
+  final void Function(String)? onFieldSubmitted;
   const CustomTextFiled(
       {super.key,
       required this.isPassword,
@@ -16,7 +18,9 @@ class CustomTextFiled extends StatelessWidget {
       required this.suffixicon,
       required this.validator,
       required this.textController,
-      required this.formState});
+      required this.formState,
+      this.focusNode,
+      this.onFieldSubmitted});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +29,8 @@ class CustomTextFiled extends StatelessWidget {
       child: TextFormField(
         obscureText: isPassword,
         cursorColor: filedColors,
+        focusNode: focusNode,
+        onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
             label: Text(lable),
             labelStyle: TextStyle(color: filedColors),

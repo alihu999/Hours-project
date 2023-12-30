@@ -8,7 +8,10 @@ import '../core/share/custom_snackbar.dart';
 abstract class EmployeController extends GetxController {
   addEmploye();
   getEmployes();
-  editEmploye(Employe employe, String fname, String lname);
+  changeEmployeStatus(
+    Employe employe,
+    String status,
+  );
   deleteEmploye(Employe employe);
   bool employeIsExist();
 }
@@ -20,7 +23,10 @@ class EmployeControllerImp extends EmployeController {
   late GlobalKey<FormState> firstNameFormState;
   late GlobalKey<FormState> lastNameFormState;
 
+  late FocusNode lastNameFocusNode;
+
   RxList<Employe> employList = <Employe>[].obs;
+  int employeIndex = 0;
 
   @override
   void onInit() {
@@ -29,6 +35,8 @@ class EmployeControllerImp extends EmployeController {
 
     firstNameFormState = GlobalKey<FormState>();
     lastNameFormState = GlobalKey<FormState>();
+
+    lastNameFocusNode = FocusNode();
     getEmployes();
 
     super.onInit();
@@ -46,8 +54,8 @@ class EmployeControllerImp extends EmployeController {
         firstNameFormState.currentState!.validate() &&
         !employeIsExist()) {
       final employe = Employe()
-        ..firstName = firstNameController.text
-        ..lastName = lastNameController.text
+        ..firstName = firstNameController.text.trim()
+        ..lastName = lastNameController.text.trim()
         ..status = "isStoped";
       MyServices.getEmploye().add(employe);
       firstNameController.clear();
@@ -65,10 +73,10 @@ class EmployeControllerImp extends EmployeController {
   }
 
   @override
-  editEmploye(Employe employe, String fname, String lname) {
-    employe.firstName = fname;
-    employe.lastName = lname;
+  changeEmployeStatus(Employe employe, String status) {
+    employe.status = status;
     employe.save();
+    getEmployes();
   }
 
   @override
@@ -82,8 +90,8 @@ class EmployeControllerImp extends EmployeController {
   @override
   employeIsExist() {
     for (int i = 0; i < employList.length; i++) {
-      if (employList[i].firstName == firstNameController.text &&
-          employList[i].lastName == lastNameController.text) {
+      if (employList[i].firstName == firstNameController.text.trim() &&
+          employList[i].lastName == lastNameController.text.trim()) {
         errorSnackBar("The employe name is exist");
         return true;
       }
