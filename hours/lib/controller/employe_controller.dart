@@ -58,6 +58,9 @@ class EmployeControllerImp extends EmployeController {
         ..lastName = lastNameController.text.trim()
         ..status = "isStoped";
       MyServices.getEmploye().add(employe);
+      // sqlDb.createTable(
+      //   "${firstNameController.text}_${lastNameController.text}");
+
       firstNameController.clear();
       lastNameController.clear();
       Get.back();
