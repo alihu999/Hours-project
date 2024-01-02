@@ -15,35 +15,46 @@ class EmployeList extends StatelessWidget {
     return Container(
       color: AppColors.secondColors.withOpacity(0.25),
       width: isMobile ? width : 225,
+      height: double.infinity,
+      alignment: Alignment.center,
       padding: const EdgeInsets.only(top: 7, bottom: 7),
       child: GetX<EmployeControllerImp>(builder: (controller) {
-        return ListView.builder(
-            itemCount: controller.employList.length,
-            itemBuilder: ((context, index) {
-              return ListTile(
-                contentPadding: const EdgeInsets.only(
-                    bottom: 7, top: 7, right: 10, left: 10),
-                title: Text(
-                  "${controller.employList[index].firstName} ${controller.employList[index].lastName}",
-                  style: const TextStyle(fontSize: 17),
-                ),
-                trailing: IconButton(
-                    onPressed: () {
-                      Get.defaultDialog(
-                          title: "Delete Employe Record",
-                          titleStyle: const TextStyle(fontSize: 20),
-                          middleText:
-                              "do you want delete ${controller.employList[index].firstName} ${controller.employList[index].lastName} record?",
-                          middleTextStyle: const TextStyle(fontSize: 17),
-                          onCancel: () {},
-                          onConfirm: () {
-                            controller
-                                .deleteEmploye(controller.employList[index]);
-                          });
-                    },
-                    icon: const Icon(Icons.delete)),
-              );
-            }));
+        if (controller.employList.isEmpty) {
+          return const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Not found employee records,Add employee records",
+                style: TextStyle(fontSize: 17),
+              ));
+        } else {
+          return ListView.builder(
+              itemCount: controller.employList.length,
+              itemBuilder: ((context, index) {
+                return ListTile(
+                  contentPadding: const EdgeInsets.only(
+                      bottom: 7, top: 7, right: 10, left: 10),
+                  title: Text(
+                    "${controller.employList[index].firstName} ${controller.employList[index].lastName}",
+                    style: const TextStyle(fontSize: 17),
+                  ),
+                  trailing: IconButton(
+                      onPressed: () {
+                        Get.defaultDialog(
+                            title: "Delete Employe Record",
+                            titleStyle: const TextStyle(fontSize: 20),
+                            middleText:
+                                "do you want delete ${controller.employList[index].firstName} ${controller.employList[index].lastName} record?",
+                            middleTextStyle: const TextStyle(fontSize: 17),
+                            onCancel: () {},
+                            onConfirm: () {
+                              controller
+                                  .deleteEmploye(controller.employList[index]);
+                            });
+                      },
+                      icon: const Icon(Icons.delete)),
+                );
+              }));
+        }
       }),
     );
   }

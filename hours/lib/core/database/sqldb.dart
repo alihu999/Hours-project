@@ -28,31 +28,7 @@ class SqlDb {
     CREATE TABLE "$tableName" (id INTEGER  NOT NULL ,day TEXT NOT NULL)
     ''');
     } catch (e) {
-      print("eroooor: $e");
-    }
-  }
-
-  startWork(String tableName) async {
-    Database? mydb = await db;
-    try {
-      int respons = await mydb!.rawInsert('''
-INSERT INTO '$tableName' VALUES ('1','${DateTime.now().toString()}')
-''');
-      print("******************** $respons");
-    } catch (e) {
-      print("eroooor: $e");
-    }
-  }
-
-  showData() async {
-    Database? mydb = await db;
-    try {
-      var respons = await mydb!.rawQuery('''
-SELECT * FROM 'ali_almostfa'
-''');
-      print("******************** $respons");
-    } catch (e) {
-      print("eroooor: $e");
+      //print("eroooor: $e");
     }
   }
 }

@@ -39,7 +39,7 @@ class _AnalogClockState extends State<AnalogClock> {
           boxShadow: [
             BoxShadow(
                 offset: const Offset(0, 0),
-                blurRadius: 64,
+                blurRadius: 20,
                 color: Colors.grey.withOpacity(0.50)),
           ],
           border: Border.all(color: AppColors.secondColors),
