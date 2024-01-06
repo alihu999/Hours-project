@@ -3,15 +3,13 @@ import 'package:get/get.dart';
 import 'package:hours/core/model/employe_model.dart';
 import 'package:hours/core/services/services.dart';
 
+import '../core/database/sqldb.dart';
 import '../core/share/custom_snackbar.dart';
 
 abstract class EmployeController extends GetxController {
   addEmploye();
   getEmployes();
-  changeEmployeStatus(
-    Employe employe,
-    String status,
-  );
+  changeEmployeStatus(Employe employe, String status);
   deleteEmploye(Employe employe);
   bool employeIsExist();
 }
@@ -28,6 +26,8 @@ class EmployeControllerImp extends EmployeController {
   RxList<Employe> employList = <Employe>[].obs;
   int employeIndex = 0;
 
+  SqlDb sqlDb = SqlDb();
+
   @override
   void onInit() {
     firstNameController = TextEditingController();
@@ -37,6 +37,7 @@ class EmployeControllerImp extends EmployeController {
     lastNameFormState = GlobalKey<FormState>();
 
     lastNameFocusNode = FocusNode();
+
     getEmployes();
 
     super.onInit();
@@ -58,8 +59,8 @@ class EmployeControllerImp extends EmployeController {
         ..lastName = lastNameController.text.trim()
         ..status = "isStoped";
       MyServices.getEmploye().add(employe);
-      // sqlDb.createTable(
-      //   "${firstNameController.text}_${lastNameController.text}");
+      sqlDb.createTable(
+          "${firstNameController.text}_${lastNameController.text}");
 
       firstNameController.clear();
       lastNameController.clear();

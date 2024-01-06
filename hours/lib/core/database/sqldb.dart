@@ -25,10 +25,32 @@ class SqlDb {
     Database? mydb = await db;
     try {
       await mydb!.execute(''' 
-    CREATE TABLE "$tableName" (id INTEGER  NOT NULL ,day TEXT NOT NULL)
+   CREATE TABLE "$tableName"(_id INTEGER PRIMARY KEY ,
+   date TEXT,
+   startAt TEXT,
+   finishAt TEXT ,
+   breakSat TEXT,
+   breakFat TEXT,
+   hours INTEGER
+  )
     ''');
     } catch (e) {
-      //print("eroooor: $e");
+      print("ERROR: $e");
     }
+  }
+
+  insertData(String tableName, String fieled, String data) async {
+    Database? mydb = await db;
+    await mydb!.rawInsert('''
+   INSERT INTO $tableName($fieled,) VALUES($data)
+''');
+  }
+
+  Future<List<Map>> queryData(String tableName) async {
+    Database? mydb = await db;
+    List<Map> respons = await mydb!.rawQuery('''
+   SELECT * FROM $tableName 
+''');
+    return respons;
   }
 }
