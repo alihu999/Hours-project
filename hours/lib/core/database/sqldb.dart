@@ -39,18 +39,25 @@ class SqlDb {
     }
   }
 
-  insertData(String tableName, String fieled, String data) async {
+  insertData(String tableName) async {
     Database? mydb = await db;
     await mydb!.rawInsert('''
-   INSERT INTO $tableName($fieled,) VALUES($data)
+   INSERT INTO $tableName(date,startAt) VALUES(
+   "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}",
+   "${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}")
+''');
+  }
+
+  updateData(String tableName, String filed, String data, int id) async {
+    Database? mydb = await db;
+    await mydb!.rawUpdate('''
+   UPDATE $tableName SET $filed="$data" WHERE _id=$id
 ''');
   }
 
   Future<List<Map>> queryData(String tableName) async {
     Database? mydb = await db;
-    List<Map> respons = await mydb!.rawQuery('''
-   SELECT * FROM $tableName 
-''');
+    List<Map> respons = await mydb!.query(tableName);
     return respons;
   }
 }

@@ -12,6 +12,12 @@ abstract class EmployeController extends GetxController {
   changeEmployeStatus(Employe employe, String status);
   deleteEmploye(Employe employe);
   bool employeIsExist();
+
+  getCurrentId();
+  startWork();
+  stopWork();
+  startBreak();
+  stopBreak();
 }
 
 class EmployeControllerImp extends EmployeController {
@@ -27,6 +33,7 @@ class EmployeControllerImp extends EmployeController {
   int employeIndex = 0;
 
   SqlDb sqlDb = SqlDb();
+  int currentId = 0;
 
   @override
   void onInit() {
@@ -101,5 +108,52 @@ class EmployeControllerImp extends EmployeController {
       }
     }
     return false;
+  }
+
+  @override
+  getCurrentId() async {
+    currentId = (await sqlDb.queryData(
+            "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}"))
+        .length;
+  }
+
+  @override
+  startWork() async {
+    changeEmployeStatus(employList[employeIndex], "isStarted");
+    sqlDb.insertData(
+        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}");
+    getCurrentId();
+  }
+
+  @override
+  stopWork() async {
+    changeEmployeStatus(employList[employeIndex], "isStoped");
+    sqlDb.updateData(
+        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}",
+        "finishAt",
+        "${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
+        currentId);
+    print(await sqlDb.queryData(
+        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}"));
+  }
+
+  @override
+  startBreak() async {
+    changeEmployeStatus(employList[employeIndex], "isBreaked");
+    sqlDb.updateData(
+        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}",
+        "breakSat",
+        "${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
+        currentId);
+  }
+
+  @override
+  stopBreak() {
+    changeEmployeStatus(employList[employeIndex], "isStarted");
+    sqlDb.updateData(
+        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}",
+        "breakFat",
+        "${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
+        currentId);
   }
 }

@@ -39,46 +39,57 @@ class EmployeDialog extends GetView<HomePageControllerImp> {
           GetX<EmployeControllerImp>(builder: (controller) {
             String status =
                 controller.employList[controller.employeIndex].status;
-            if (status == "isStoped") {
-              return MaterialButton(
-                  color: Colors.green,
-                  onPressed: () {
-                    controller.changeEmployeStatus(
-                        controller.employList[controller.employeIndex],
-                        "isStarted");
-                  },
-                  child: const Text(
-                    "Star",
-                    style: TextStyle(color: Colors.white),
-                  ));
-            } else if (status == "isStarted") {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  MaterialButton(
-                      color: Colors.blue,
-                      onPressed: () {
-                        controller.changeEmployeStatus(
-                            controller.employList[controller.employeIndex],
-                            "isBreaked");
-                      },
-                      child: const Text(
-                        "break",
-                        style: TextStyle(color: Colors.white),
-                      )),
-                  MaterialButton(
-                      color: Colors.red,
-                      onPressed: () {
-                        controller.changeEmployeStatus(
-                            controller.employList[controller.employeIndex],
-                            "isStoped");
-                      },
-                      child: const Text(
-                        "stop",
-                        style: TextStyle(color: Colors.white),
-                      ))
-                ],
-              );
+            return status == "isStoped"
+                ? MaterialButton(
+                    color: Colors.green,
+                    onPressed: () {
+                      controller.startWork();
+                    },
+                    child: const Text(
+                      "Star",
+                      style: TextStyle(color: Colors.white),
+                    ))
+                : status == "isStarted"
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          MaterialButton(
+                              color: Colors.blue,
+                              onPressed: () {
+                                controller.startBreak();
+                              },
+                              child: const Text(
+                                "break",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                          MaterialButton(
+                              color: Colors.red,
+                              onPressed: () {
+                                controller.stopWork();
+                              },
+                              child: const Text(
+                                "finish",
+                                style: TextStyle(color: Colors.white),
+                              ))
+                        ],
+                      )
+                    : MaterialButton(
+                        color: Colors.green,
+                        onPressed: () {
+                          controller.stopBreak();
+                        },
+                        child: const Text(
+                          "return",
+                          style: TextStyle(color: Colors.white),
+                        ));
+          })
+        ],
+      ),
+    );
+  }
+}
+/*  if (status == "isStoped") {
+              
             } else {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -86,9 +97,7 @@ class EmployeDialog extends GetView<HomePageControllerImp> {
                   MaterialButton(
                       color: Colors.green,
                       onPressed: () {
-                        controller.changeEmployeStatus(
-                            controller.employList[controller.employeIndex],
-                            "isStarted");
+                        controller.stopBreak();
                       },
                       child: const Text(
                         "star",
@@ -97,9 +106,7 @@ class EmployeDialog extends GetView<HomePageControllerImp> {
                   MaterialButton(
                       color: Colors.red,
                       onPressed: () {
-                        controller.changeEmployeStatus(
-                            controller.employList[controller.employeIndex],
-                            "isStoped");
+                        controller.stopWork();
                       },
                       child: const Text(
                         "stop",
@@ -107,10 +114,4 @@ class EmployeDialog extends GetView<HomePageControllerImp> {
                       ))
                 ],
               );
-            }
-          })
-        ],
-      ),
-    );
-  }
-}
+            }*/
