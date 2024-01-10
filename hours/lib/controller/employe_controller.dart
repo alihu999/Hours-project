@@ -4,6 +4,8 @@ import 'package:hours/core/model/employe_model.dart';
 import 'package:hours/core/services/services.dart';
 
 import '../core/database/sqldb.dart';
+import '../core/function/calculate_time.dart';
+import '../core/function/time_format.dart';
 import '../core/share/custom_snackbar.dart';
 
 abstract class EmployeController extends GetxController {
@@ -15,9 +17,9 @@ abstract class EmployeController extends GetxController {
 
   getCurrentId();
   startWork();
-  stopWork();
+  finishWork();
   startBreak();
-  stopBreak();
+  finishBreak();
 }
 
 class EmployeControllerImp extends EmployeController {
@@ -96,6 +98,7 @@ class EmployeControllerImp extends EmployeController {
     Get.back();
     successfulSnackBar("The employee record has been deleted successfully");
     getEmployes();
+    sqlDb.dropTable("${employe.firstName}_${employe.lastName}");
   }
 
   @override
@@ -112,48 +115,49 @@ class EmployeControllerImp extends EmployeController {
 
   @override
   getCurrentId() async {
-    currentId = (await sqlDb.queryData(
-            "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}"))
-        .length;
+    currentId = await sqlDb.numberRows(
+        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}");
+  }
+
+  getTableName() {
+    return "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}";
   }
 
   @override
   startWork() async {
     changeEmployeStatus(employList[employeIndex], "isStarted");
-    sqlDb.insertData(
-        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}");
+    sqlDb.insertData(getTableName());
     getCurrentId();
   }
 
   @override
-  stopWork() async {
+  finishWork() async {
     changeEmployeStatus(employList[employeIndex], "isStoped");
-    sqlDb.updateData(
-        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}",
-        "finishAt",
-        "${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
-        currentId);
-    print(await sqlDb.queryData(
-        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}"));
+    String finishTime = timeFormat(DateTime.now().hour, DateTime.now().minute);
+    String startTime =
+        await sqlDb.queryTime(getTableName(), "startAt", currentId);
+    sqlDb.updateData(getTableName(), "finishAt", finishTime, currentId);
+    sqlDb.updateData(getTableName(), "workH",
+        differenceTime(startTime, finishTime), currentId);
   }
 
   @override
   startBreak() async {
     changeEmployeStatus(employList[employeIndex], "isBreaked");
-    sqlDb.updateData(
-        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}",
-        "breakSat",
-        "${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
-        currentId);
+    sqlDb.updateData(getTableName(), "breakSat",
+        timeFormat(DateTime.now().hour, DateTime.now().minute), currentId);
   }
 
   @override
-  stopBreak() {
+  finishBreak() async {
     changeEmployeStatus(employList[employeIndex], "isStarted");
-    sqlDb.updateData(
-        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}",
-        "breakFat",
-        "${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
-        currentId);
+    String finishTime = timeFormat(DateTime.now().hour, DateTime.now().minute);
+    String startTime =
+        await sqlDb.queryTime(getTableName(), "breakSat", currentId);
+    String breakTime =
+        await sqlDb.queryTime(getTableName(), "breakH", currentId);
+    breakTime = addTime(differenceTime(startTime, finishTime), breakTime);
+    sqlDb.updateData(getTableName(), "breakFat", finishTime, currentId);
+    sqlDb.updateData(getTableName(), "breakH", breakTime, currentId);
   }
 }

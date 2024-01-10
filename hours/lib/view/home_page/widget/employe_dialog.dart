@@ -59,27 +59,27 @@ class EmployeDialog extends GetView<HomePageControllerImp> {
                                 controller.startBreak();
                               },
                               child: const Text(
-                                "break",
+                                "Break",
                                 style: TextStyle(color: Colors.white),
                               )),
                           MaterialButton(
                               color: Colors.red,
                               onPressed: () {
-                                controller.stopWork();
+                                controller.finishWork();
                               },
                               child: const Text(
-                                "finish",
+                                "Finish",
                                 style: TextStyle(color: Colors.white),
                               ))
                         ],
                       )
                     : MaterialButton(
-                        color: Colors.green,
+                        color: Colors.red,
                         onPressed: () {
-                          controller.stopBreak();
+                          controller.finishBreak();
                         },
                         child: const Text(
-                          "return",
+                          "Return",
                           style: TextStyle(color: Colors.white),
                         ));
           })
@@ -88,30 +88,3 @@ class EmployeDialog extends GetView<HomePageControllerImp> {
     );
   }
 }
-/*  if (status == "isStoped") {
-              
-            } else {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  MaterialButton(
-                      color: Colors.green,
-                      onPressed: () {
-                        controller.stopBreak();
-                      },
-                      child: const Text(
-                        "star",
-                        style: TextStyle(color: Colors.white),
-                      )),
-                  MaterialButton(
-                      color: Colors.red,
-                      onPressed: () {
-                        controller.stopWork();
-                      },
-                      child: const Text(
-                        "stop",
-                        style: TextStyle(color: Colors.white),
-                      ))
-                ],
-              );
-            }*/

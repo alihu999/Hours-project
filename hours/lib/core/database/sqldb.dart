@@ -23,19 +23,26 @@ class SqlDb {
 
   createTable(String tableName) async {
     Database? mydb = await db;
-    try {
-      await mydb!.execute(''' 
+
+    await mydb!.execute(''' 
    CREATE TABLE "$tableName"(_id INTEGER PRIMARY KEY ,
    date TEXT,
    startAt TEXT,
-   finishAt TEXT ,
-   breakSat TEXT,
-   breakFat TEXT,
-   hours INTEGER
+   finishAt TEXT DEFAULT '00:00' ,
+   breakSat TEXT DEFAULT '00:00',
+   breakFat TEXT DEFAULT '00:00',
+   breakH TEXT DEFAULT '00:00',
+   workH TEXT DEFAULT '00:00'
   )
     ''');
+  }
+
+  dropTable(String tableName) async {
+    Database? mydb = await db;
+    try {
+      mydb!.execute("DROP TABLE $tableName");
     } catch (e) {
-      print("ERROR: $e");
+      print(e);
     }
   }
 
@@ -59,5 +66,20 @@ class SqlDb {
     Database? mydb = await db;
     List<Map> respons = await mydb!.query(tableName);
     return respons;
+  }
+
+  Future<int> numberRows(String tableName) async {
+    Database? mydb = await db;
+
+    var number = await mydb!.rawQuery("SELECT COUNT (*) FROM $tableName");
+    return int.parse("${number[0]["COUNT (*)"]}");
+  }
+
+  Future<String> queryTime(String tableName, String timeName, int id) async {
+    Database? mydb = await db;
+    List<Map> respons = await mydb!.rawQuery("""
+SELECT $timeName FROM $tableName WHERE _id=$id
+""");
+    return respons[0][timeName];
   }
 }
