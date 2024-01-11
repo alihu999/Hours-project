@@ -38,3 +38,22 @@ addTime(String time1, String time2) {
   }
   return timeFormat(sumHour, sumMinu);
 }
+
+subTime(String time1, String time2) {
+  int hour1 = int.parse(time1.substring(0, 2));
+  int hour2 = int.parse(time2.substring(0, 2));
+
+  int minu1 = int.parse(time1.substring(3, 5));
+  int minu2 = int.parse(time2.substring(3, 5));
+
+  int subHour = hour1 - hour2;
+  int subminu = 0;
+
+  if (minu1 - minu2 < 0) {
+    subHour = subHour - 1;
+    subminu = 60 + (minu1 - minu2);
+  } else {
+    subminu = minu1 - minu2;
+  }
+  return timeFormat(subHour, subminu);
+}

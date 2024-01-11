@@ -82,4 +82,11 @@ SELECT $timeName FROM $tableName WHERE _id=$id
 """);
     return respons[0][timeName];
   }
+
+  Future<Map> queryRow(String tableName, int id) async {
+    Database? mydb = await db;
+    List<Map> respons =
+        await mydb!.rawQuery("""SELECT * FROM $tableName WHERE _id=$id""");
+    return respons[0];
+  }
 }

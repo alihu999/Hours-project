@@ -13,8 +13,9 @@ class EmployeDialog extends GetView<HomePageControllerImp> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 200,
+      width: 300,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GetX<HomePageControllerImp>(builder: (contrller) {
             String hours = controller.hours.toString().padLeft(2, "0");
@@ -30,11 +31,18 @@ class EmployeDialog extends GetView<HomePageControllerImp> {
                   "${controller.year}-${controller.month}-${controller.day}",
                   style: const TextStyle(fontSize: 15),
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
               ],
             );
+          }),
+          GetX<EmployeControllerImp>(builder: (controller) {
+            String status =
+                controller.employList[controller.employeIndex].status;
+            return status == "isStoped"
+                ? const Text("press 'Start' When you start working")
+                : status == "isStarted"
+                    ? const Text(
+                        "press 'Finish' When you finish working\npress 'Break' When you Start a break")
+                    : const Text("press 'Return' When you finish the break");
           }),
           GetX<EmployeControllerImp>(builder: (controller) {
             String status =
@@ -74,7 +82,7 @@ class EmployeDialog extends GetView<HomePageControllerImp> {
                         ],
                       )
                     : MaterialButton(
-                        color: Colors.red,
+                        color: Colors.green,
                         onPressed: () {
                           controller.finishBreak();
                         },

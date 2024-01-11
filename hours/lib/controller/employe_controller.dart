@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hours/core/model/employe_model.dart';
 import 'package:hours/core/services/services.dart';
+import 'package:hours/view/home_page/widget/end_day_info.dart';
 
 import '../core/database/sqldb.dart';
 import '../core/function/calculate_time.dart';
@@ -69,7 +70,7 @@ class EmployeControllerImp extends EmployeController {
         ..status = "isStoped";
       MyServices.getEmploye().add(employe);
       sqlDb.createTable(
-          "${firstNameController.text}_${lastNameController.text}");
+          "${firstNameController.text.trim()}_${lastNameController.text.trim()}");
 
       firstNameController.clear();
       lastNameController.clear();
@@ -136,9 +137,16 @@ class EmployeControllerImp extends EmployeController {
     String finishTime = timeFormat(DateTime.now().hour, DateTime.now().minute);
     String startTime =
         await sqlDb.queryTime(getTableName(), "startAt", currentId);
+    String breakTime =
+        await sqlDb.queryTime(getTableName(), "breakH", currentId);
+    String workTime = subTime(differenceTime(startTime, finishTime), breakTime);
     sqlDb.updateData(getTableName(), "finishAt", finishTime, currentId);
-    sqlDb.updateData(getTableName(), "workH",
-        differenceTime(startTime, finishTime), currentId);
+    sqlDb.updateData(getTableName(), "workH", workTime, currentId);
+    Map rowData = await sqlDb.queryRow(getTableName(), currentId);
+    Get.back();
+    endDayInfo(
+        "${employList[employeIndex].firstName} ${employList[employeIndex].lastName}",
+        rowData);
   }
 
   @override
