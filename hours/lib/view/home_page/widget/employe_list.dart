@@ -24,7 +24,7 @@ class EmployeList extends StatelessWidget {
           return const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              "No Data,Add employee records",
+              "no data availables,Add employee records",
               style: TextStyle(fontSize: 17),
             ),
           );

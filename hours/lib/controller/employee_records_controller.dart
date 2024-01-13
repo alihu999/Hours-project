@@ -6,11 +6,11 @@ abstract class EmployeeRecordsControllert extends GetxController {}
 
 class EmploeeRecordsControllerImp extends EmployeeRecordsControllert {
   List<Map> employeeTable = [];
-  String tableName = "";
+  RxString tableName = "".obs;
 
   SqlDb sqlDb = SqlDb();
 
   Future<List<Map>> getEmployeeTable() async {
-    return await sqlDb.queryData(tableName);
+    return await sqlDb.queryData(tableName.value);
   }
 }

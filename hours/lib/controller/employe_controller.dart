@@ -127,8 +127,9 @@ class EmployeControllerImp extends EmployeController {
   @override
   startWork() async {
     changeEmployeStatus(employList[employeIndex], "isStarted");
-    sqlDb.insertData(getTableName());
+    await sqlDb.insertData(getTableName());
     getCurrentId();
+    Get.back();
   }
 
   @override
@@ -152,8 +153,9 @@ class EmployeControllerImp extends EmployeController {
   @override
   startBreak() async {
     changeEmployeStatus(employList[employeIndex], "isBreaked");
-    sqlDb.updateData(getTableName(), "breakSat",
+    await sqlDb.updateData(getTableName(), "breakSat",
         timeFormat(DateTime.now().hour, DateTime.now().minute), currentId);
+    Get.back();
   }
 
   @override
@@ -165,7 +167,8 @@ class EmployeControllerImp extends EmployeController {
     String breakTime =
         await sqlDb.queryTime(getTableName(), "breakH", currentId);
     breakTime = addTime(differenceTime(startTime, finishTime), breakTime);
-    sqlDb.updateData(getTableName(), "breakFat", finishTime, currentId);
-    sqlDb.updateData(getTableName(), "breakH", breakTime, currentId);
+    await sqlDb.updateData(getTableName(), "breakFat", finishTime, currentId);
+    await sqlDb.updateData(getTableName(), "breakH", breakTime, currentId);
+    Get.back();
   }
 }

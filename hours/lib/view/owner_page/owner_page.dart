@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hours/core/constant/app_colors.dart';
 
+import '../../controller/employee_records_controller.dart';
+import '../employee_records.dart/widget/table_of_data.dart';
 import 'widget/add_employe_dialog.dart';
 import 'widget/employe_list.dart';
 
@@ -10,6 +12,9 @@ class OwnerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(EmploeeRecordsControllerImp());
+    double width = MediaQuery.of(context).size.width;
+    bool isMobile = width > 450 ? false : true;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -19,9 +24,19 @@ class OwnerPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: AppColors.secondColors,
       ),
-      body: const Row(
+      body: Row(
         children: [
-          EmployeList(),
+          const EmployeList(),
+          if (!isMobile)
+            Expanded(
+              child: GetX<EmploeeRecordsControllerImp>(builder: (controller) {
+                if (controller.tableName.value.isEmpty) {
+                  return const Center(child: Text("press on Employee Name"));
+                } else {
+                  return const TableOfTable();
+                }
+              }),
+            )
         ],
       ),
       floatingActionButton: FloatingActionButton(

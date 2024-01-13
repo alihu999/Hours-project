@@ -13,8 +13,7 @@ class EmployeList extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width > 450 ? false : true;
-    EmploeeRecordsControllerImp employeeRecordsController =
-        Get.put(EmploeeRecordsControllerImp());
+    EmploeeRecordsControllerImp employeeRecordsController = Get.find();
 
     return Container(
       color: AppColors.secondColors.withOpacity(0.25),
@@ -27,7 +26,7 @@ class EmployeList extends StatelessWidget {
           return const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                "No Data,Add employee records",
+                "No Data available,Add employee records",
                 style: TextStyle(fontSize: 17),
               ));
         } else {
@@ -57,9 +56,11 @@ class EmployeList extends StatelessWidget {
                       },
                       icon: const Icon(Icons.delete)),
                   onTap: () {
-                    employeeRecordsController.tableName =
+                    employeeRecordsController.tableName.value =
                         "${controller.employList[index].firstName}_${controller.employList[index].lastName}";
-                    Get.toNamed(AppRoutes.employeeRecordsPage);
+                    if (isMobile) {
+                      Get.toNamed(AppRoutes.employeeRecordsPage);
+                    }
                   },
                 );
               }));
