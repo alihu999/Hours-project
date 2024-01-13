@@ -14,7 +14,7 @@ class EmployeDialog extends GetView<HomePageControllerImp> {
     return SizedBox(
       height: 200,
       width: 300,
-      child: Column(
+      child: Column( 
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GetX<HomePageControllerImp>(builder: (contrller) {

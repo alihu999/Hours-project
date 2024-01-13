@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hours/controller/employee_records_controller.dart';
 import 'package:hours/core/constant/app_colors.dart';
+import 'package:hours/core/constant/app_routes.dart';
 
 import '../../../controller/employe_controller.dart';
 
@@ -11,6 +13,8 @@ class EmployeList extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width > 450 ? false : true;
+    EmploeeRecordsControllerImp employeeRecordsController =
+        Get.put(EmploeeRecordsControllerImp());
 
     return Container(
       color: AppColors.secondColors.withOpacity(0.25),
@@ -52,6 +56,11 @@ class EmployeList extends StatelessWidget {
                             });
                       },
                       icon: const Icon(Icons.delete)),
+                  onTap: () {
+                    employeeRecordsController.tableName =
+                        "${controller.employList[index].firstName}_${controller.employList[index].lastName}";
+                    Get.toNamed(AppRoutes.employeeRecordsPage);
+                  },
                 );
               }));
         }

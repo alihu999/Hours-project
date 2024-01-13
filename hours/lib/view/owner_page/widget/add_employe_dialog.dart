@@ -14,42 +14,54 @@ class AddEmployeDialog extends GetView<EmployeControllerImp> {
     return Container(
       padding: const EdgeInsets.only(right: 15, left: 15),
       height: 300,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const Text("Please Enter employe Name"),
-          CustomTextFiled(
-            lable: "First Name",
-            isPassword: false,
-            filedColors: AppColors.secondColors,
-            suffixicon: const Icon(Icons.person),
-            validator: (val) => validationEmployeName(val!),
-            textController: controller.firstNameController,
-            onFieldSubmitted: (val) {
-              FocusScope.of(context).requestFocus(controller.lastNameFocusNode);
-            },
-            formState: controller.firstNameFormState,
-          ),
-          CustomTextFiled(
-            lable: "Last Name",
-            isPassword: false,
-            focusNode: controller.lastNameFocusNode,
-            filedColors: AppColors.secondColors,
-            suffixicon: const Icon(Icons.person),
-            validator: (val) => validationEmployeName(val!),
-            textController: controller.lastNameController,
-            formState: controller.lastNameFormState,
-          ),
-          MaterialButton(
-              color: AppColors.secondColors,
-              onPressed: () {
-                controller.addEmploye();
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Text("Please Enter employe Name"),
+            const SizedBox(
+              height: 35,
+            ),
+            CustomTextFiled(
+              lable: "First Name",
+              isPassword: false,
+              filedColors: AppColors.secondColors,
+              suffixicon: const Icon(Icons.person),
+              validator: (val) => validationEmployeName(val!),
+              textController: controller.firstNameController,
+              onFieldSubmitted: (val) {
+                FocusScope.of(context)
+                    .requestFocus(controller.lastNameFocusNode);
               },
-              child: const Text(
-                "Submit",
-                style: TextStyle(color: Colors.white),
-              ))
-        ],
+              formState: controller.firstNameFormState,
+            ),
+            const SizedBox(
+              height: 35,
+            ),
+            CustomTextFiled(
+              lable: "Last Name",
+              isPassword: false,
+              focusNode: controller.lastNameFocusNode,
+              filedColors: AppColors.secondColors,
+              suffixicon: const Icon(Icons.person),
+              validator: (val) => validationEmployeName(val!),
+              textController: controller.lastNameController,
+              formState: controller.lastNameFormState,
+            ),
+            const SizedBox(
+              height: 35,
+            ),
+            MaterialButton(
+                color: AppColors.secondColors,
+                onPressed: () {
+                  controller.addEmploye();
+                },
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(color: Colors.white),
+                ))
+          ],
+        ),
       ),
     );
   }
