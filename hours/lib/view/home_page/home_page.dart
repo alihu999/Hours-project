@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width > 425 ? false : true;
-    Get.put(HomePageControllerImp(), permanent: true);
+    Get.put(HomePageControllerImp());
     Get.put(EmployeControllerImp());
 
     return Scaffold(

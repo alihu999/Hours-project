@@ -4,7 +4,7 @@ import 'package:hours/controller/employee_records_controller.dart';
 import 'package:hours/core/constant/app_colors.dart';
 import 'package:hours/core/constant/app_routes.dart';
 
-import '../../../controller/employe_controller.dart';
+import '../../../controller/owner_page_controller.dart';
 
 class EmployeList extends StatelessWidget {
   const EmployeList({super.key});
@@ -21,7 +21,7 @@ class EmployeList extends StatelessWidget {
       height: double.infinity,
       alignment: Alignment.center,
       padding: const EdgeInsets.only(top: 7, bottom: 7),
-      child: GetX<EmployeControllerImp>(builder: (controller) {
+      child: GetX<OwnerPageControllerImp>(builder: (controller) {
         if (controller.employList.isEmpty) {
           return const Padding(
               padding: EdgeInsets.all(8.0),

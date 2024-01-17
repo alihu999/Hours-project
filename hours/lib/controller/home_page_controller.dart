@@ -38,6 +38,7 @@ class HomePageControllerImp extends HomePageController {
 
   @override
   checkOwnerPassword() {
-    Get.offNamed(AppRoutes.ownerPage);
+    Get.back();
+    Get.toNamed(AppRoutes.ownerPage);
   }
 }

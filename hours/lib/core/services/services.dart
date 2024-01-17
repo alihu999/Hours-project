@@ -6,6 +6,7 @@ import '../model/employe_model.dart';
 class MyServices extends GetxService {
   Future<MyServices> init() async {
     await initHiveBox();
+
     return this;
   }
 

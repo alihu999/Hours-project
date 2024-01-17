@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hours/core/model/employe_model.dart';
 import 'package:hours/core/services/services.dart';
@@ -7,14 +6,10 @@ import 'package:hours/view/home_page/widget/end_day_info.dart';
 import '../core/database/sqldb.dart';
 import '../core/function/calculate_time.dart';
 import '../core/function/time_format.dart';
-import '../core/share/custom_snackbar.dart';
 
 abstract class EmployeController extends GetxController {
-  addEmploye();
   getEmployes();
   changeEmployeStatus(Employe employe, String status);
-  deleteEmploye(Employe employe);
-  bool employeIsExist();
 
   getCurrentId();
   startWork();
@@ -24,14 +19,6 @@ abstract class EmployeController extends GetxController {
 }
 
 class EmployeControllerImp extends EmployeController {
-  late TextEditingController firstNameController;
-  late TextEditingController lastNameController;
-
-  late GlobalKey<FormState> firstNameFormState;
-  late GlobalKey<FormState> lastNameFormState;
-
-  late FocusNode lastNameFocusNode;
-
   RxList<Employe> employList = <Employe>[].obs;
   int employeIndex = 0;
 
@@ -40,14 +27,6 @@ class EmployeControllerImp extends EmployeController {
 
   @override
   void onInit() {
-    firstNameController = TextEditingController();
-    lastNameController = TextEditingController();
-
-    firstNameFormState = GlobalKey<FormState>();
-    lastNameFormState = GlobalKey<FormState>();
-
-    lastNameFocusNode = FocusNode();
-
     getEmployes();
 
     super.onInit();
@@ -60,28 +39,6 @@ class EmployeControllerImp extends EmployeController {
   }
 
   @override
-  addEmploye() {
-    if (lastNameFormState.currentState!.validate() &&
-        firstNameFormState.currentState!.validate() &&
-        !employeIsExist()) {
-      final employe = Employe()
-        ..firstName = firstNameController.text.trim()
-        ..lastName = lastNameController.text.trim()
-        ..status = "isStoped";
-      MyServices.getEmploye().add(employe);
-      sqlDb.createTable(
-          "${firstNameController.text.trim()}_${lastNameController.text.trim()}");
-
-      firstNameController.clear();
-      lastNameController.clear();
-      Get.back();
-      successfulSnackBar("The employee record has been adedd successfully");
-
-      getEmployes();
-    }
-  }
-
-  @override
   getEmployes() {
     employList.value = MyServices.getEmploye().values.toList();
   }
@@ -91,27 +48,6 @@ class EmployeControllerImp extends EmployeController {
     employe.status = status;
     employe.save();
     getEmployes();
-  }
-
-  @override
-  deleteEmploye(Employe employe) {
-    employe.delete();
-    Get.back();
-    successfulSnackBar("The employee record has been deleted successfully");
-    getEmployes();
-    sqlDb.dropTable("${employe.firstName}_${employe.lastName}");
-  }
-
-  @override
-  employeIsExist() {
-    for (int i = 0; i < employList.length; i++) {
-      if (employList[i].firstName == firstNameController.text.trim() &&
-          employList[i].lastName == lastNameController.text.trim()) {
-        errorSnackBar("The employe name is exist");
-        return true;
-      }
-    }
-    return false;
   }
 
   @override
@@ -167,8 +103,8 @@ class EmployeControllerImp extends EmployeController {
     String breakTime =
         await sqlDb.queryTime(getTableName(), "breakH", currentId);
     breakTime = addTime(differenceTime(startTime, finishTime), breakTime);
-    await sqlDb.updateData(getTableName(), "breakFat", finishTime, currentId);
-    await sqlDb.updateData(getTableName(), "breakH", breakTime, currentId);
+    sqlDb.updateData(getTableName(), "breakFat", finishTime, currentId);
+    sqlDb.updateData(getTableName(), "breakH", breakTime, currentId);
     Get.back();
   }
 }
