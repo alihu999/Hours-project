@@ -94,6 +94,7 @@ class OwnerPageControllerImp extends OwnerPageController {
 
   @override
   Future<List<Map>> getEmployeeTable() async {
-    return await sqlDb.queryData(tableName.value);
+    List<Map> dataTable = await sqlDb.queryData(tableName.value);
+    return List.from(dataTable.reversed);
   }
 }

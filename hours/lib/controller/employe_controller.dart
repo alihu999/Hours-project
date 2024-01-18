@@ -52,8 +52,7 @@ class EmployeControllerImp extends EmployeController {
 
   @override
   getCurrentId() async {
-    currentId = await sqlDb.numberRows(
-        "${employList[employeIndex].firstName}_${employList[employeIndex].lastName}");
+    currentId = await sqlDb.numberRows(getTableName());
   }
 
   getTableName() {
@@ -72,14 +71,20 @@ class EmployeControllerImp extends EmployeController {
   finishWork() async {
     changeEmployeStatus(employList[employeIndex], "isStoped");
     String finishTime = timeFormat(DateTime.now().hour, DateTime.now().minute);
+    await getCurrentId();
     String startTime =
         await sqlDb.queryTime(getTableName(), "startAt", currentId);
+
     String breakTime =
         await sqlDb.queryTime(getTableName(), "breakH", currentId);
+
     String workTime = subTime(differenceTime(startTime, finishTime), breakTime);
-    sqlDb.updateData(getTableName(), "finishAt", finishTime, currentId);
-    sqlDb.updateData(getTableName(), "workH", workTime, currentId);
+
+    await sqlDb.updateData(getTableName(), "finishAt", finishTime, currentId);
+    await sqlDb.updateData(getTableName(), "workH", workTime, currentId);
     Map rowData = await sqlDb.queryRow(getTableName(), currentId);
+    print("rowData=$rowData");
+
     Get.back();
     endDayInfo(
         "${employList[employeIndex].firstName} ${employList[employeIndex].lastName}",
@@ -89,6 +94,7 @@ class EmployeControllerImp extends EmployeController {
   @override
   startBreak() async {
     changeEmployeStatus(employList[employeIndex], "isBreaked");
+    await getCurrentId();
     await sqlDb.updateData(getTableName(), "breakSat",
         timeFormat(DateTime.now().hour, DateTime.now().minute), currentId);
     Get.back();
@@ -98,6 +104,7 @@ class EmployeControllerImp extends EmployeController {
   finishBreak() async {
     changeEmployeStatus(employList[employeIndex], "isStarted");
     String finishTime = timeFormat(DateTime.now().hour, DateTime.now().minute);
+    await getCurrentId();
     String startTime =
         await sqlDb.queryTime(getTableName(), "breakSat", currentId);
     String breakTime =

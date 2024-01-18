@@ -27,6 +27,8 @@ class TableOfData extends StatelessWidget {
                     child: DataTable(
                         headingRowColor:
                             MaterialStatePropertyAll(AppColors.secondColors),
+                        sortAscending: false,
+                        sortColumnIndex: 0,
                         headingTextStyle: const TextStyle(color: Colors.white),
                         columns: const [
                           DataColumn(label: Text("Date")),
