@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hours/core/constant/app_colors.dart';
 
-import '../../controller/employee_records_controller.dart';
+import '../../controller/owner_page_controller.dart';
 import 'widget/table_of_data.dart';
 
-class EmployeeRecords extends GetView<EmploeeRecordsControllerImp> {
+class EmployeeRecords extends GetView<OwnerPageControllerImp> {
   const EmployeeRecords({super.key});
 
   @override
@@ -19,7 +19,7 @@ class EmployeeRecords extends GetView<EmploeeRecordsControllerImp> {
         backgroundColor: AppColors.secondColors,
         centerTitle: true,
       ),
-      body: const TableOfTable(),
+      body: const TableOfData(),
     );
   }
 }

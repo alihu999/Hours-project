@@ -11,6 +11,7 @@ abstract class OwnerPageController extends GetxController {
   bool employeIsExist();
   getEmployes();
   deleteEmploye(Employe employe);
+  getEmployeeTable();
 }
 
 class OwnerPageControllerImp extends OwnerPageController {
@@ -24,7 +25,8 @@ class OwnerPageControllerImp extends OwnerPageController {
 
   SqlDb sqlDb = SqlDb();
 
-  RxList<Employe> employList = <Employe>[].obs;
+  List<Employe> employList = <Employe>[];
+  RxString tableName = "".obs;
 
   @override
   void onInit() {
@@ -37,13 +39,12 @@ class OwnerPageControllerImp extends OwnerPageController {
     lastNameFocusNode = FocusNode();
 
     getEmployes();
-
     super.onInit();
   }
 
   @override
   getEmployes() {
-    employList.value = MyServices.getEmploye().values.toList();
+    employList = MyServices.getEmploye().values.toList();
   }
 
   @override
@@ -65,6 +66,7 @@ class OwnerPageControllerImp extends OwnerPageController {
       successfulSnackBar("The employee record has been adedd successfully");
 
       getEmployes();
+      update();
     }
   }
 
@@ -87,5 +89,11 @@ class OwnerPageControllerImp extends OwnerPageController {
     successfulSnackBar("The employee record has been deleted successfully");
     getEmployes();
     sqlDb.dropTable("${employe.firstName}_${employe.lastName}");
+    update();
+  }
+
+  @override
+  Future<List<Map>> getEmployeeTable() async {
+    return await sqlDb.queryData(tableName.value);
   }
 }

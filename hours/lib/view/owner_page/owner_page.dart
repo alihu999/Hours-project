@@ -4,7 +4,6 @@ import 'package:hours/controller/owner_page_controller.dart';
 import 'package:hours/core/constant/app_colors.dart';
 
 import '../../controller/employe_controller.dart';
-import '../../controller/employee_records_controller.dart';
 import '../employee_records.dart/widget/table_of_data.dart';
 import 'widget/add_employe_dialog.dart';
 import 'widget/employe_list.dart';
@@ -14,9 +13,7 @@ class OwnerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EmploeeRecordsControllerImp controller =
-        Get.put(EmploeeRecordsControllerImp(), permanent: false);
-    Get.put(OwnerPageControllerImp());
+    OwnerPageControllerImp controller = Get.put(OwnerPageControllerImp());
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width > 450 ? false : true;
     return PopScope(
@@ -34,11 +31,11 @@ class OwnerPage extends StatelessWidget {
             const EmployeList(),
             if (!isMobile)
               Expanded(
-                child: GetX<EmploeeRecordsControllerImp>(builder: (controller) {
+                child: GetX<OwnerPageControllerImp>(builder: (controller) {
                   if (controller.tableName.value.isEmpty) {
                     return const Center(child: Text("press on Employee Name"));
                   } else {
-                    return const TableOfTable();
+                    return const TableOfData();
                   }
                 }),
               )

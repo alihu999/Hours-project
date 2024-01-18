@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hours/controller/employee_records_controller.dart';
 import 'package:hours/core/constant/app_colors.dart';
 import 'package:hours/core/constant/app_routes.dart';
 
@@ -13,7 +12,6 @@ class EmployeList extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width > 450 ? false : true;
-    EmploeeRecordsControllerImp employeeRecordsController = Get.find();
 
     return Container(
       color: AppColors.secondColors.withOpacity(0.25),
@@ -21,7 +19,7 @@ class EmployeList extends StatelessWidget {
       height: double.infinity,
       alignment: Alignment.center,
       padding: const EdgeInsets.only(top: 7, bottom: 7),
-      child: GetX<OwnerPageControllerImp>(builder: (controller) {
+      child: GetBuilder<OwnerPageControllerImp>(builder: (controller) {
         if (controller.employList.isEmpty) {
           return const Padding(
               padding: EdgeInsets.all(8.0),
@@ -33,6 +31,8 @@ class EmployeList extends StatelessWidget {
           return ListView.builder(
               itemCount: controller.employList.length,
               itemBuilder: ((context, index) {
+                String tablename =
+                    "${controller.employList[index].firstName}_${controller.employList[index].lastName}";
                 return ListTile(
                   contentPadding: const EdgeInsets.only(
                       bottom: 7, top: 7, right: 10, left: 10),
@@ -55,11 +55,17 @@ class EmployeList extends StatelessWidget {
                             });
                       },
                       icon: const Icon(Icons.delete)),
+                  selected: isMobile
+                      ? false
+                      : controller.tableName.value == tablename,
+                  selectedTileColor: AppColors.secondColors,
+                  selectedColor: Colors.white,
                   onTap: () {
-                    employeeRecordsController.tableName.value =
-                        "${controller.employList[index].firstName}_${controller.employList[index].lastName}";
+                    controller.tableName.value = tablename;
                     if (isMobile) {
                       Get.toNamed(AppRoutes.employeeRecordsPage);
+                    } else {
+                      controller.update();
                     }
                   },
                 );
