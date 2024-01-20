@@ -19,5 +19,8 @@ endDayInfo(String name, Map info) {
                 "Work For: ${info["workH"].toString().substring(0, 2)} hour & ${info["workH"].toString().substring(3, 5)} minute")
           ],
         ),
-      ));
+      ),
+      onConfirm: () {
+        Get.back();
+      });
 }

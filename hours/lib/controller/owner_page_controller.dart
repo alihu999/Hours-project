@@ -12,6 +12,7 @@ abstract class OwnerPageController extends GetxController {
   getEmployes();
   deleteEmploye(Employe employe);
   getEmployeeTable();
+  totalWorking();
 }
 
 class OwnerPageControllerImp extends OwnerPageController {
@@ -27,6 +28,7 @@ class OwnerPageControllerImp extends OwnerPageController {
 
   List<Employe> employList = <Employe>[];
   RxString tableName = "".obs;
+  List<Map> dataTable = <Map>[];
 
   @override
   void onInit() {
@@ -94,7 +96,18 @@ class OwnerPageControllerImp extends OwnerPageController {
 
   @override
   Future<List<Map>> getEmployeeTable() async {
-    List<Map> dataTable = await sqlDb.queryData(tableName.value);
-    return List.from(dataTable.reversed);
+    dataTable = await sqlDb.queryData(tableName.value);
+    return dataTable;
+  }
+
+  @override
+  totalWorking() {
+    int totoalMinute = 0;
+    for (Map element in dataTable) {
+      totoalMinute = totoalMinute +
+          (int.parse(element["workH"].substring(0, 2))) * 60 +
+          (int.parse(element["workH"].substring(3, 5)));
+    }
+    return "${totoalMinute ~/ 60} hours & ${totoalMinute % 60}";
   }
 }

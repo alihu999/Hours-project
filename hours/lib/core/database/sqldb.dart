@@ -39,11 +39,8 @@ class SqlDb {
 
   dropTable(String tableName) async {
     Database? mydb = await db;
-    try {
-      mydb!.execute("DROP TABLE $tableName");
-    } catch (e) {
-      print(e);
-    }
+
+    mydb!.execute("DROP TABLE $tableName");
   }
 
   insertData(String tableName) async {
