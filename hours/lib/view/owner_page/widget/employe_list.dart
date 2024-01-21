@@ -55,13 +55,12 @@ class EmployeList extends StatelessWidget {
                             });
                       },
                       icon: const Icon(Icons.delete)),
-                  selected: isMobile
-                      ? false
-                      : controller.tableName.value == tablename,
+                  selected:
+                      isMobile ? false : controller.tableName == tablename,
                   selectedTileColor: AppColors.secondColors,
                   selectedColor: Colors.white,
                   onTap: () {
-                    controller.tableName.value = tablename;
+                    controller.tableName = tablename;
                     if (isMobile) {
                       Get.toNamed(AppRoutes.employeeRecordsPage);
                     } else {

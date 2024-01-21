@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hours/core/function/time_format.dart';
 import 'package:hours/core/share/custom_snackbar.dart';
 
 import '../core/database/sqldb.dart';
 import '../core/model/employe_model.dart';
 import '../core/services/services.dart';
+import '../view/employee_records.dart/widget/show_change_time_dialog.dart';
 
 abstract class OwnerPageController extends GetxController {
   addEmploye();
@@ -13,6 +15,7 @@ abstract class OwnerPageController extends GetxController {
   deleteEmploye(Employe employe);
   getEmployeeTable();
   totalWorking();
+  changeTimeValue(String column, String name, String value, int id);
 }
 
 class OwnerPageControllerImp extends OwnerPageController {
@@ -27,7 +30,7 @@ class OwnerPageControllerImp extends OwnerPageController {
   SqlDb sqlDb = SqlDb();
 
   List<Employe> employList = <Employe>[];
-  RxString tableName = "".obs;
+  String tableName = "";
   List<Map> dataTable = <Map>[];
 
   @override
@@ -96,7 +99,7 @@ class OwnerPageControllerImp extends OwnerPageController {
 
   @override
   Future<List<Map>> getEmployeeTable() async {
-    dataTable = await sqlDb.queryData(tableName.value);
+    dataTable = await sqlDb.queryData(tableName);
     return dataTable;
   }
 
@@ -109,5 +112,15 @@ class OwnerPageControllerImp extends OwnerPageController {
           (int.parse(element["workH"].substring(3, 5)));
     }
     return "${totoalMinute ~/ 60} hours & ${totoalMinute % 60}";
+  }
+
+  @override
+  changeTimeValue(String column, String name, String value, int id) async {
+    TimeOfDay newTime = await showChangeTimeDialog(Get.context!, column, value);
+    if (value != timeFormat(newTime.hour, newTime.minute)) {
+      await sqlDb.updateData(
+          tableName, name, timeFormat(newTime.hour, newTime.minute), id);
+      update();
+    }
   }
 }

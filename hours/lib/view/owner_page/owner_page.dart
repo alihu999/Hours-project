@@ -31,8 +31,9 @@ class OwnerPage extends StatelessWidget {
             const EmployeList(),
             if (!isMobile)
               Expanded(
-                child: GetX<OwnerPageControllerImp>(builder: (controller) {
-                  if (controller.tableName.value.isEmpty) {
+                child:
+                    GetBuilder<OwnerPageControllerImp>(builder: (controller) {
+                  if (controller.tableName.isEmpty) {
                     return const Center(child: Text("press on Employee Name"));
                   } else {
                     return const TableOfData();
@@ -57,7 +58,7 @@ class OwnerPage extends StatelessWidget {
         ),
       ),
       onPopInvoked: (didPop) {
-        controller.tableName.value = "";
+        controller.tableName = "";
         EmployeControllerImp employecontroller = Get.find();
         employecontroller.getEmployes();
       },

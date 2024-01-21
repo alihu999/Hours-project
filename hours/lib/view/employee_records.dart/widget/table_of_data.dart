@@ -9,7 +9,7 @@ class TableOfData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<OwnerPageControllerImp>(builder: (controller) {
+    return GetBuilder<OwnerPageControllerImp>(builder: (controller) {
       return FutureBuilder<List<Map>>(
           future: controller.getEmployeeTable(),
           builder: (context, snapshot) {
@@ -50,7 +50,13 @@ class TableOfData extends StatelessWidget {
                                           DataCell(
                                             Text(
                                                 "${snapshot.data![index]["startAt"]}"),
-                                            onTap: () {},
+                                            onTap: () {
+                                              controller.changeTimeValue(
+                                                  "Start At",
+                                                  "startAt",
+                                                  "${snapshot.data![index]["startAt"]}",
+                                                  snapshot.data![index]["_id"]);
+                                            },
                                           ),
                                           DataCell(
                                             Text(

@@ -13,7 +13,7 @@ class EmployeeRecords extends GetView<OwnerPageControllerImp> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          controller.tableName.value,
+          controller.tableName,
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: AppColors.secondColors,
