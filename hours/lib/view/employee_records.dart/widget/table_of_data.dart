@@ -61,7 +61,13 @@ class TableOfData extends StatelessWidget {
                                           DataCell(
                                             Text(
                                                 "${snapshot.data![index]["finishAt"]}"),
-                                            onTap: () {},
+                                            onTap: () {
+                                              controller.changeTimeValue(
+                                                  "Finish At",
+                                                  "finishAt",
+                                                  "${snapshot.data![index]["finishAt"]}",
+                                                  snapshot.data![index]["_id"]);
+                                            },
                                           ),
                                           DataCell(Text(
                                               "${snapshot.data![index]["breakH"]}")),

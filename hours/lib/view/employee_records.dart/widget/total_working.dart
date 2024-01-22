@@ -5,7 +5,7 @@ import '../../../controller/owner_page_controller.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/function/month_name.dart';
 
-class TotalWorkingTime extends GetView<OwnerPageControllerImp> {
+class TotalWorkingTime extends StatelessWidget {
   const TotalWorkingTime({super.key});
 
   @override
@@ -19,9 +19,11 @@ class TotalWorkingTime extends GetView<OwnerPageControllerImp> {
             width: 450,
             alignment: Alignment.center,
             color: AppColors.secondColors.withOpacity(0.25),
-            child: Text(
-              "Total working hours for ${getMonthName(DateTime.now().month)}: ${controller.totalWorking()}",
-            ),
+            child: GetX<OwnerPageControllerImp>(builder: (controller) {
+              return Text(
+                "Total working hours for ${getMonthName(DateTime.now().month)}: ${controller.totalwork.value}",
+              );
+            }),
           ),
           MaterialButton(
               color: AppColors.secondColors,

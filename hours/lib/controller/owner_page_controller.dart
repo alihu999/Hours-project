@@ -4,6 +4,7 @@ import 'package:hours/core/function/time_format.dart';
 import 'package:hours/core/share/custom_snackbar.dart';
 
 import '../core/database/sqldb.dart';
+import '../core/function/calculate_time.dart';
 import '../core/model/employe_model.dart';
 import '../core/services/services.dart';
 import '../view/employee_records.dart/widget/show_change_time_dialog.dart';
@@ -32,6 +33,7 @@ class OwnerPageControllerImp extends OwnerPageController {
   List<Employe> employList = <Employe>[];
   String tableName = "";
   List<Map> dataTable = <Map>[];
+  RxString totalwork = "".obs;
 
   @override
   void onInit() {
@@ -100,26 +102,44 @@ class OwnerPageControllerImp extends OwnerPageController {
   @override
   Future<List<Map>> getEmployeeTable() async {
     dataTable = await sqlDb.queryData(tableName);
+    totalWorking();
     return dataTable;
   }
 
   @override
-  totalWorking() {
+  totalWorking() async {
     int totoalMinute = 0;
     for (Map element in dataTable) {
       totoalMinute = totoalMinute +
           (int.parse(element["workH"].substring(0, 2))) * 60 +
           (int.parse(element["workH"].substring(3, 5)));
     }
-    return "${totoalMinute ~/ 60} hours & ${totoalMinute % 60}";
+    totalwork.value = "${totoalMinute ~/ 60} hours & ${totoalMinute % 60}";
   }
 
   @override
   changeTimeValue(String column, String name, String value, int id) async {
     TimeOfDay newTime = await showChangeTimeDialog(Get.context!, column, value);
+    String newWorkTime = "00:00";
+    String breakTime = "00:00";
     if (value != timeFormat(newTime.hour, newTime.minute)) {
       await sqlDb.updateData(
           tableName, name, timeFormat(newTime.hour, newTime.minute), id);
+      breakTime = await sqlDb.queryTime(tableName, "breakH", id);
+      if (name == "startAt") {
+        String finishTime = await sqlDb.queryTime(tableName, "finishAt", id);
+        newWorkTime = subTime(
+            differenceTime(
+                timeFormat(newTime.hour, newTime.minute), finishTime),
+            breakTime);
+      } else {
+        String startWork = await sqlDb.queryTime(tableName, "startAt", id);
+        newWorkTime = subTime(
+            differenceTime(startWork, timeFormat(newTime.hour, newTime.minute)),
+            breakTime);
+      }
+      await sqlDb.updateData(tableName, "workH", newWorkTime, id);
+
       update();
     }
   }
