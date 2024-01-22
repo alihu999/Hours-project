@@ -4,14 +4,15 @@ import 'package:get/get.dart';
 import '../../../controller/owner_page_controller.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/function/month_name.dart';
+import 'calculate_salary.dart';
 
-class TotalWorkingTime extends StatelessWidget {
+class TotalWorkingTime extends GetView<OwnerPageControllerImp> {
   const TotalWorkingTime({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 30, bottom: 30),
+      margin: const EdgeInsets.only(top: 30, bottom: 100),
       child: Row(
         children: [
           Container(
@@ -28,7 +29,11 @@ class TotalWorkingTime extends StatelessWidget {
           MaterialButton(
               color: AppColors.secondColors,
               height: 50,
-              onPressed: () {},
+              onPressed: () {
+                Get.defaultDialog(
+                    title: "calculate Salary",
+                    content: const CalculateSalary());
+              },
               child: const Text(
                 "Calculate",
                 style: TextStyle(color: Colors.white),

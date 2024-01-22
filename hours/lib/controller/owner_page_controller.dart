@@ -17,11 +17,13 @@ abstract class OwnerPageController extends GetxController {
   getEmployeeTable();
   totalWorking();
   changeTimeValue(String column, String name, String value, int id);
+  calculateSalary();
 }
 
 class OwnerPageControllerImp extends OwnerPageController {
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
+  late TextEditingController hourlyWage;
 
   late GlobalKey<FormState> firstNameFormState;
   late GlobalKey<FormState> lastNameFormState;
@@ -33,12 +35,16 @@ class OwnerPageControllerImp extends OwnerPageController {
   List<Employe> employList = <Employe>[];
   String tableName = "";
   List<Map> dataTable = <Map>[];
+  int totoalMinute = 0;
+
   RxString totalwork = "".obs;
+  RxDouble salary = 0.0.obs;
 
   @override
   void onInit() {
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
+    hourlyWage = TextEditingController();
 
     firstNameFormState = GlobalKey<FormState>();
     lastNameFormState = GlobalKey<FormState>();
@@ -108,7 +114,7 @@ class OwnerPageControllerImp extends OwnerPageController {
 
   @override
   totalWorking() async {
-    int totoalMinute = 0;
+    totoalMinute = 0;
     for (Map element in dataTable) {
       totoalMinute = totoalMinute +
           (int.parse(element["workH"].substring(0, 2))) * 60 +
@@ -141,6 +147,14 @@ class OwnerPageControllerImp extends OwnerPageController {
       await sqlDb.updateData(tableName, "workH", newWorkTime, id);
 
       update();
+    }
+  }
+
+  @override
+  calculateSalary() {
+    if (hourlyWage.text.isNotEmpty) {
+      salary.value =
+          (double.parse(hourlyWage.text) * totoalMinute / 60).roundToDouble();
     }
   }
 }
