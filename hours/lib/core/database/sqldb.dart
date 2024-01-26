@@ -47,7 +47,7 @@ class SqlDb {
     Database? mydb = await db;
     await mydb!.rawInsert('''
    INSERT INTO $tableName(date,startAt) VALUES(
-   "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}",
+   "${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, "0")}-${DateTime.now().day}",
    "${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}")
 ''');
   }

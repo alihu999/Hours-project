@@ -27,7 +27,13 @@ class CalculateSalary extends GetView<OwnerPageControllerImp> {
                   keyboardType: TextInputType.number,
                   cursorColor: AppColors.secondColors,
                   onSubmitted: (value) {
-                    controller.calculateSalary();
+                    if (controller.hourlyWage.text.isNotEmpty) {
+                      controller.salary.value =
+                          (double.parse(controller.hourlyWage.text) *
+                                  controller.totalMinute /
+                                  60)
+                              .roundToDouble();
+                    }
                   },
                   decoration: InputDecoration(
                     hintText: "here",

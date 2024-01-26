@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hours/core/function/split_data_to_tables.dart';
 import 'package:hours/core/function/time_format.dart';
 import 'package:hours/core/share/custom_snackbar.dart';
 
@@ -7,6 +8,7 @@ import '../core/database/sqldb.dart';
 import '../core/function/calculate_time.dart';
 import '../core/model/employe_model.dart';
 import '../core/services/services.dart';
+import '../view/employee_records.dart/widget/calculate_salary.dart';
 import '../view/employee_records.dart/widget/show_change_time_dialog.dart';
 
 abstract class OwnerPageController extends GetxController {
@@ -15,9 +17,9 @@ abstract class OwnerPageController extends GetxController {
   getEmployes();
   deleteEmploye(Employe employe);
   getEmployeeTable();
-  totalWorking();
+  totalWorking(String month);
   changeTimeValue(String column, String name, String value, int id);
-  calculateSalary();
+  calculateSalary(int totalminute);
 }
 
 class OwnerPageControllerImp extends OwnerPageController {
@@ -34,10 +36,9 @@ class OwnerPageControllerImp extends OwnerPageController {
 
   List<Employe> employList = <Employe>[];
   String tableName = "";
-  List<Map> dataTable = <Map>[];
-  int totoalMinute = 0;
+  Map<String, List<Map>> splitedData = {};
 
-  RxString totalwork = "".obs;
+  int totalMinute = 0;
   RxDouble salary = 0.0.obs;
 
   @override
@@ -106,21 +107,22 @@ class OwnerPageControllerImp extends OwnerPageController {
   }
 
   @override
-  Future<List<Map>> getEmployeeTable() async {
-    dataTable = await sqlDb.queryData(tableName);
-    totalWorking();
-    return dataTable;
+  Future<Map<String, List<Map>>> getEmployeeTable() async {
+    List<Map> allData = await sqlDb.queryData(tableName);
+    splitedData = splitDataToTables(allData);
+    return splitedData;
   }
 
   @override
-  totalWorking() async {
-    totoalMinute = 0;
+  totalWorking(String month) {
+    List<Map> dataTable = splitedData[month]!;
+    int totoalMinute = 0;
     for (Map element in dataTable) {
       totoalMinute = totoalMinute +
           (int.parse(element["workH"].substring(0, 2))) * 60 +
           (int.parse(element["workH"].substring(3, 5)));
     }
-    totalwork.value = "${totoalMinute ~/ 60} hours & ${totoalMinute % 60}";
+    return totoalMinute;
   }
 
   @override
@@ -151,10 +153,13 @@ class OwnerPageControllerImp extends OwnerPageController {
   }
 
   @override
-  calculateSalary() {
-    if (hourlyWage.text.isNotEmpty) {
+  calculateSalary(int totalminute) {
+    Get.defaultDialog(
+        title: "calculate Salary", content: const CalculateSalary());
+    totalMinute = totalminute;
+    /* if (hourlyWage.text.isNotEmpty) {
       salary.value =
           (double.parse(hourlyWage.text) * totoalMinute / 60).roundToDouble();
-    }
+    }*/
   }
 }
