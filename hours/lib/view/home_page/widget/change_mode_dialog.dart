@@ -14,11 +14,9 @@ class ChangeModeDialog extends GetView<HomePageControllerImp> {
       padding: const EdgeInsets.only(right: 15, left: 15),
       height: 200,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           const Text("Please Enter password"),
-          const SizedBox(
-            height: 25,
-          ),
           CustomTextFiled(
             lable: "password",
             isPassword: true,
@@ -29,9 +27,6 @@ class ChangeModeDialog extends GetView<HomePageControllerImp> {
             validator: (val) {
               return null;
             },
-          ),
-          const SizedBox(
-            height: 50,
           ),
           MaterialButton(
               color: AppColors.firstColors,

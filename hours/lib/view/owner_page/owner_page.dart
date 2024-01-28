@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hours/controller/owner_page_controller.dart';
 import 'package:hours/core/constant/app_colors.dart';
+import 'package:hours/core/constant/app_routes.dart';
 
 import '../../controller/employe_controller.dart';
 import '../employee_records.dart/widget/table_of_data.dart';
@@ -36,7 +37,7 @@ class OwnerPage extends StatelessWidget {
                   if (controller.tableName.isEmpty) {
                     return const Center(child: Text("press on Employee Name"));
                   } else {
-                    return const TableOfData();
+                    return const Center(child: TableOfData());
                   }
                 }),
               )
@@ -46,10 +47,14 @@ class OwnerPage extends StatelessWidget {
           backgroundColor: AppColors.secondColors,
           splashColor: Colors.white.withOpacity(0.25),
           onPressed: () {
-            Get.defaultDialog(
-                title: "Add Employee",
-                titleStyle: const TextStyle(fontSize: 25),
-                content: const AddEmployeDialog());
+            if (isMobile) {
+              Get.defaultDialog(
+                  title: "Add Employee",
+                  titleStyle: const TextStyle(fontSize: 25),
+                  content: const AddEmployeDialog());
+            } else {
+              Get.toNamed(AppRoutes.addEmployeePage);
+            }
           },
           child: const Icon(
             Icons.person_add,

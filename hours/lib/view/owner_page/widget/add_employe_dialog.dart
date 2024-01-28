@@ -11,17 +11,14 @@ class AddEmployeDialog extends GetView<OwnerPageControllerImp> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(right: 15, left: 15),
-      height: 300,
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.only(right: 15, left: 15),
+        height: 250,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const Text("Please Enter employe Name"),
-            const SizedBox(
-              height: 35,
-            ),
             CustomTextFiled(
               lable: "First Name",
               isPassword: false,
@@ -35,9 +32,6 @@ class AddEmployeDialog extends GetView<OwnerPageControllerImp> {
               },
               formState: controller.firstNameFormState,
             ),
-            const SizedBox(
-              height: 35,
-            ),
             CustomTextFiled(
               lable: "Last Name",
               isPassword: false,
@@ -47,9 +41,6 @@ class AddEmployeDialog extends GetView<OwnerPageControllerImp> {
               validator: (val) => validationEmployeName(val!),
               textController: controller.lastNameController,
               formState: controller.lastNameFormState,
-            ),
-            const SizedBox(
-              height: 35,
             ),
             MaterialButton(
                 color: AppColors.secondColors,
