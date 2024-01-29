@@ -4,8 +4,8 @@ import 'package:hours/core/services/services.dart';
 import 'package:hours/firebase_options.dart';
 import 'package:hours/routes.dart';
 import 'package:hours/theme.dart';
-import 'package:hours/view/home_page/home_page.dart';
 import 'package:get/get.dart';
+import 'package:hours/view/login_page/login_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       routes: routes,
-      home: const HomePage(),
+      home: const LoginPage(),
       theme: apptheme,
     );
   }
