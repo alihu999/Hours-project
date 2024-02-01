@@ -23,6 +23,8 @@ class LogInControllerImp extends LogInController {
     emailFormState = GlobalKey<FormState>();
     passwordFormState = GlobalKey<FormState>();
 
+    passwordFocusNode = FocusNode();
+
     super.onInit();
   }
 

@@ -48,8 +48,15 @@ class TableOfData extends StatelessWidget {
                                                 AppColors.secondColors
                                                     .withOpacity(0.25)),
                                             cells: [
-                                              DataCell(Text(
-                                                  "${snapshot.data!["${month[index]}"]![ind]["date"]}")),
+                                              DataCell(
+                                                  Text(
+                                                      "${snapshot.data!["${month[index]}"]![ind]["date"]}"),
+                                                  onLongPress: () {
+                                                controller.deleteRow(snapshot
+                                                            .data![
+                                                        "${month[index]}"]![ind]
+                                                    ["_id"]);
+                                              }),
                                               DataCell(
                                                   Text(
                                                       "${snapshot.data!["${month[index]}"]![ind]["startAt"]}"),
@@ -80,32 +87,59 @@ class TableOfData extends StatelessWidget {
                                               DataCell(Text(
                                                   "${snapshot.data!["${month[index]}"]![ind]["workH"]}")),
                                             ]))),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(top: 50, bottom: 50),
+                              height: 50,
+                              width: 450,
+                              alignment: Alignment.center,
+                              color: AppColors.secondColors.withOpacity(0.25),
+                              child: Text(
+                                "Total working hours for ${getMonthName(int.parse(month[index]))}:${totalMinute ~/ 60} Hour ${totalMinute % 60} Minute ",
+                              ),
+                            ),
                             Row(
                               children: [
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      top: 50, bottom: 50),
-                                  height: 50,
-                                  width: 450,
-                                  alignment: Alignment.center,
-                                  color:
-                                      AppColors.secondColors.withOpacity(0.25),
-                                  child: Text(
-                                    "Total working hours for ${getMonthName(int.parse(month[index]))}:${totalMinute ~/ 60} Hour ${totalMinute % 60} Minute ",
-                                  ),
+                                CircleAvatar(
+                                  backgroundColor: AppColors.secondColors,
+                                  radius: 25,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        controller.calculateSalary(totalMinute);
+                                      },
+                                      icon: const Icon(
+                                        Icons.calculate_outlined,
+                                        size: 35,
+                                      )),
                                 ),
-                                MaterialButton(
-                                    color: AppColors.secondColors,
-                                    height: 50,
-                                    onPressed: () {
-                                      controller.calculateSalary(totalMinute);
-                                    },
-                                    child: const Text(
-                                      "Calculate",
-                                      style: TextStyle(color: Colors.white),
-                                    )),
+                                const SizedBox(
+                                  width: 30,
+                                ),
+                                CircleAvatar(
+                                  backgroundColor: AppColors.secondColors,
+                                  radius: 25,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        int firstId = snapshot
+                                                .data!["${month[index]}"]![0]
+                                            ["_id"];
+                                        int lastId = snapshot
+                                            .data!["${month[index]}"]![snapshot
+                                                .data!["${month[index]}"]!
+                                                .length -
+                                            1]["_id"];
+
+                                        controller.deleteMonthTable(
+                                            firstId, lastId);
+                                      },
+                                      icon: const Icon(
+                                        Icons.delete_outline,
+                                        size: 35,
+                                      )),
+                                ),
                               ],
-                            )
+                            ),
+                            const SizedBox(height: 50),
                           ],
                         );
                       }),

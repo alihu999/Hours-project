@@ -3,13 +3,8 @@ import 'package:get/get.dart';
 validationEmployeName(String name) {
   if (name.length < 3) {
     return "Enter more than 3 chracters";
-  } else if (name.length > 6) {
-    return "Enter less than 7 chracters";
-  } else if (!GetUtils.isUsername(name)) {
-    return "Enter valid name";
-  } else {
-    return null;
   }
+  return null;
 }
 
 validationEmail(String email) {

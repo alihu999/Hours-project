@@ -10,26 +10,29 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double hight = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    bool isMobile = width > 425 ? false : true;
-
     LogInControllerImp controller = Get.put(LogInControllerImp());
     return Scaffold(
         body: Center(
       child: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(right: 15, left: 15),
-          height: isMobile ? hight * 0.6 : 500,
+          height: 450,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Image.asset(
-                "assets/images/logo.png",
-                fit: BoxFit.contain,
-                height: 75,
+              Column(
+                children: [
+                  Image.asset(
+                    "assets/images/logo.png",
+                    fit: BoxFit.contain,
+                    height: 45,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text("Wellcom Back, please login "),
+                ],
               ),
-              const Text("Wellcom Back, please login "),
               Padding(
                 padding: const EdgeInsets.only(right: 25, left: 25),
                 child: CustomTextFiled(

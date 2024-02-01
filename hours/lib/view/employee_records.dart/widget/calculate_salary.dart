@@ -9,7 +9,7 @@ class CalculateSalary extends GetView<OwnerPageControllerImp> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 150,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -22,19 +22,10 @@ class CalculateSalary extends GetView<OwnerPageControllerImp> {
                 height: 60,
                 width: 80,
                 child: TextField(
-                  controller: controller.hourlyWage,
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.number,
                   cursorColor: AppColors.secondColors,
-                  onSubmitted: (value) {
-                    if (controller.hourlyWage.text.isNotEmpty) {
-                      controller.salary.value =
-                          (double.parse(controller.hourlyWage.text) *
-                                  controller.totalMinute /
-                                  60)
-                              .roundToDouble();
-                    }
-                  },
+                  onSubmitted: (value) {},
                   decoration: InputDecoration(
                     hintText: "here",
                     enabledBorder: OutlineInputBorder(
@@ -47,6 +38,13 @@ class CalculateSalary extends GetView<OwnerPageControllerImp> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10))),
                   ),
+                  onChanged: (val) {
+                    if (val.isNotEmpty) {
+                      controller.salary.value = double.parse(
+                          (double.parse(val) * controller.totalMinute / 60)
+                              .toStringAsFixed(2));
+                    }
+                  },
                 ),
               )),
               Icon(
@@ -68,13 +66,6 @@ class CalculateSalary extends GetView<OwnerPageControllerImp> {
               })
             ],
           ),
-          MaterialButton(
-              color: AppColors.secondColors,
-              onPressed: () {},
-              child: const Text(
-                "Submit",
-                style: TextStyle(color: Colors.white),
-              ))
         ],
       ),
     );

@@ -20,7 +20,6 @@ endDayInfo(String name, Map info) {
           ],
         ),
       ),
-      onConfirm: () {
-        Get.back();
-      });
+      textCancel: "ok",
+      onCancel: () {});
 }

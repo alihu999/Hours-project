@@ -20,12 +20,13 @@ abstract class OwnerPageController extends GetxController {
   totalWorking(String month);
   changeTimeValue(String column, String name, String value, int id);
   calculateSalary(int totalminute);
+  deleteRow(int id);
+  deleteMonthTable(int firstId, int lastId);
 }
 
 class OwnerPageControllerImp extends OwnerPageController {
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
-  late TextEditingController hourlyWage;
 
   late GlobalKey<FormState> firstNameFormState;
   late GlobalKey<FormState> lastNameFormState;
@@ -45,7 +46,6 @@ class OwnerPageControllerImp extends OwnerPageController {
   void onInit() {
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
-    hourlyWage = TextEditingController();
 
     firstNameFormState = GlobalKey<FormState>();
     lastNameFormState = GlobalKey<FormState>();
@@ -153,13 +153,43 @@ class OwnerPageControllerImp extends OwnerPageController {
   }
 
   @override
+  deleteRow(int id) {
+    Get.defaultDialog(
+        title: "Delete Row",
+        titleStyle: const TextStyle(fontSize: 20),
+        middleText: "Do you want delete the Row?",
+        onCancel: () {},
+        onConfirm: () async {
+          int respons = await sqlDb.deleteRow(tableName, id);
+          Get.back();
+          if (respons == 1) {
+            successfulSnackBar("the Row has been deleted");
+          }
+          update();
+        });
+  }
+
+  @override
+  deleteMonthTable(int firstId, int lastId) {
+    Get.defaultDialog(
+        title: "Delete Table",
+        titleStyle: const TextStyle(fontSize: 20),
+        middleText: "Do you want delete the Table?",
+        onCancel: () {},
+        onConfirm: () async {
+          int respons = await sqlDb.deleteMultiRow(tableName, firstId, lastId);
+          Get.back();
+          if (respons == 1) {
+            successfulSnackBar("the Table has been deleted");
+          }
+          update();
+        });
+  }
+
+  @override
   calculateSalary(int totalminute) {
     Get.defaultDialog(
         title: "calculate Salary", content: const CalculateSalary());
     totalMinute = totalminute;
-    /* if (hourlyWage.text.isNotEmpty) {
-      salary.value =
-          (double.parse(hourlyWage.text) * totoalMinute / 60).roundToDouble();
-    }*/
   }
 }

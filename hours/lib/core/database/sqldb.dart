@@ -86,4 +86,18 @@ SELECT $timeName FROM $tableName WHERE _id=$id
         await mydb!.rawQuery("""SELECT * FROM $tableName WHERE _id=$id""");
     return respons[0];
   }
+
+  Future deleteRow(String tableName, int id) async {
+    Database? mydb = await db;
+    int respons =
+        await mydb!.rawDelete(""" DELETE FROM $tableName WHERE _id=$id """);
+    return respons;
+  }
+
+  Future deleteMultiRow(String tableName, int firstId, int lastId) async {
+    Database? mydb = await db;
+    int respons = await mydb!.rawDelete(
+        """ DELETE FROM $tableName WHERE _id BETWEEN $firstId AND $lastId """);
+    return respons;
+  }
 }

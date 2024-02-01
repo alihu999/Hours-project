@@ -7,7 +7,7 @@ showChangeTimeDialog(BuildContext context, String column, String value) {
       initialTime: TimeOfDay(
           hour: int.parse(value.substring(0, 2)),
           minute: int.parse(value.substring(3, 5))),
-      initialEntryMode: TimePickerEntryMode.dial,
+      initialEntryMode: TimePickerEntryMode.dialOnly,
       helpText: "Edite $column value",
       builder: (BuildContext context, Widget? child) {
         return Theme(
