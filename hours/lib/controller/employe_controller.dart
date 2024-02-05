@@ -3,6 +3,7 @@ import 'package:hours/core/model/employe_model.dart';
 import 'package:hours/core/services/services.dart';
 import 'package:hours/view/home_page/widget/end_day_info.dart';
 
+import '../core/database/firebase_data.dart';
 import '../core/database/sqldb.dart';
 import '../core/function/calculate_time.dart';
 import '../core/function/time_format.dart';
@@ -83,12 +84,14 @@ class EmployeControllerImp extends EmployeController {
     await sqlDb.updateData(getTableName(), "finishAt", finishTime, currentId);
     await sqlDb.updateData(getTableName(), "workH", workTime, currentId);
     Map rowData = await sqlDb.queryRow(getTableName(), currentId);
-    print("rowData=$rowData");
-
     Get.back();
     endDayInfo(
         "${employList[employeIndex].firstName} ${employList[employeIndex].lastName}",
         rowData);
+    int upload = await uploadRecord(getTableName(), rowData);
+    if (upload == 1) {
+      await sqlDb.updateData(getTableName(), "upload", "$upload", currentId);
+    }
   }
 
   @override

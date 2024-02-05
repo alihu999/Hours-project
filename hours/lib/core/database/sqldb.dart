@@ -1,3 +1,4 @@
+import 'package:hours/core/function/time_format.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -32,7 +33,8 @@ class SqlDb {
    breakSat TEXT DEFAULT '00:00',
    breakFat TEXT DEFAULT '00:00',
    breakH TEXT DEFAULT '00:00',
-   workH TEXT DEFAULT '00:00'
+   workH TEXT DEFAULT '00:00',
+   upload INTEGER DEFAULT 0
   )
     ''');
   }
@@ -45,10 +47,11 @@ class SqlDb {
 
   insertData(String tableName) async {
     Database? mydb = await db;
+    DateTime startAt = DateTime.now();
     await mydb!.rawInsert('''
    INSERT INTO $tableName(date,startAt) VALUES(
    "${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, "0")}-${DateTime.now().day}",
-   "${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}")
+   "${timeFormat(startAt.hour, startAt.minute)}")
 ''');
   }
 
