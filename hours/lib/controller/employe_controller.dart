@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:hours/core/model/employe_model.dart';
 import 'package:hours/core/services/services.dart';
@@ -17,6 +18,7 @@ abstract class EmployeController extends GetxController {
   finishWork();
   startBreak();
   finishBreak();
+  uploadData();
 }
 
 class EmployeControllerImp extends EmployeController {
@@ -116,5 +118,28 @@ class EmployeControllerImp extends EmployeController {
     sqlDb.updateData(getTableName(), "breakFat", finishTime, currentId);
     sqlDb.updateData(getTableName(), "breakH", breakTime, currentId);
     Get.back();
+  }
+
+  @override
+  uploadData() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult != ConnectivityResult.none) {
+      for (Employe employee in employList) {
+        String tableName = "${employee.firstName}_${employee.lastName}";
+        List<Map> tablesData = await sqlDb.queryData(tableName);
+        for (Map row in tablesData) {
+          if (row["upload"] == 0) {
+            int upload = await uploadRecord(tableName, row);
+            if (upload == 1) {
+              await sqlDb.updateData(
+                  tableName, "upload", "$upload", row["_id"]);
+            }
+          }
+        }
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 }

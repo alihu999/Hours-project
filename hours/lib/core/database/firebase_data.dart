@@ -10,14 +10,16 @@ Future<int> uploadRecord(String document, Map record) async {
       convertedRecord[key.toString()] = value;
     }
   });
+  Map<String, Map> dataToUpload = {
+    "${convertedRecord["_id"]}": convertedRecord
+  };
   final connectivityResult = await Connectivity().checkConnectivity();
   if (connectivityResult != ConnectivityResult.none) {
     try {
       await FirebaseFirestore.instance
           .collection("branch1")
           .doc(document)
-          .collection(document)
-          .add(convertedRecord);
+          .set(dataToUpload, SetOptions(merge: true));
       return 1;
     } catch (e) {
       return 0;
