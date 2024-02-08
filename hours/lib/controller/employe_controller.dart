@@ -122,18 +122,28 @@ class EmployeControllerImp extends EmployeController {
 
   @override
   uploadData() async {
+    //check internet connection
     final connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult != ConnectivityResult.none) {
+      //loop on employees list
       for (Employe employee in employList) {
+        //create table name
         String tableName = "${employee.firstName}_${employee.lastName}";
+        //get data of table from database
         List<Map> tablesData = await sqlDb.queryData(tableName);
+        //loop on row in table
         for (Map row in tablesData) {
+          //check row in table and upload row
           if (row["upload"] == 0) {
             int upload = await uploadRecord(tableName, row);
             if (upload == 1) {
               await sqlDb.updateData(
                   tableName, "upload", "$upload", row["_id"]);
             }
+          }
+          if (row["upload"] == 2) {
+            await sqlDb.deleteRow(tableName, row["_id"]);
+            await deleteRecord(tableName, row["_id"]);
           }
         }
       }

@@ -29,13 +29,35 @@ Future<int> uploadRecord(String document, Map record) async {
   }
 }
 
+deleteRecord(String document, int id) async {
+  final connectivityResult = await Connectivity().checkConnectivity();
+
+  if (connectivityResult != ConnectivityResult.none) {
+    try {
+      await FirebaseFirestore.instance
+          .collection("branch1")
+          .doc(document)
+          .update({"$id": FieldValue.delete()});
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
 getRecord(String document) async {
-  var res = await FirebaseFirestore.instance
+  DocumentSnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
       .collection("branch1")
       .doc(document)
-      .collection(document)
       .get();
-  for (var element in res.docs) {
-    print(element.data());
-  }
+  List<Map> listData = [];
+  res.data()!.forEach(
+    (key, value) {
+      listData.add(value);
+    },
+  );
+  return listData;
 }
