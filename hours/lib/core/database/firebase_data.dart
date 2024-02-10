@@ -29,7 +29,7 @@ Future<int> uploadRecord(String document, Map record) async {
   }
 }
 
-deleteRecord(String document, int id) async {
+deletDocument(String document) async {
   final connectivityResult = await Connectivity().checkConnectivity();
 
   if (connectivityResult != ConnectivityResult.none) {
@@ -37,10 +37,9 @@ deleteRecord(String document, int id) async {
       await FirebaseFirestore.instance
           .collection("branch1")
           .doc(document)
-          .update({"$id": FieldValue.delete()});
+          .delete();
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   } else {
@@ -48,16 +47,25 @@ deleteRecord(String document, int id) async {
   }
 }
 
-getRecord(String document) async {
-  DocumentSnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
-      .collection("branch1")
-      .doc(document)
-      .get();
-  List<Map> listData = [];
-  res.data()!.forEach(
-    (key, value) {
-      listData.add(value);
-    },
-  );
-  return listData;
+getAllFirebaseData() async {
+  QuerySnapshot<Map<String, dynamic>> allData;
+  Map<String, List> dataFirebase = {};
+  try {
+    allData = await FirebaseFirestore.instance.collection("branch1").get();
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> element in allData.docs) {
+      List<Map> dataDocument = [];
+      element.data().forEach(
+        (key, value) {
+          dataDocument.add(value);
+        },
+      );
+      dataFirebase[element.id] = dataDocument;
+    }
+    return dataFirebase;
+  } catch (e) {
+    return {"error": e};
+  }
 }
+
+handeldata(QueryDocumentSnapshot<Map<String, dynamic>> document) {}

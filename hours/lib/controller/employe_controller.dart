@@ -141,10 +141,6 @@ class EmployeControllerImp extends EmployeController {
                   tableName, "upload", "$upload", row["_id"]);
             }
           }
-          if (row["upload"] == 2) {
-            await sqlDb.deleteRow(tableName, row["_id"]);
-            await deleteRecord(tableName, row["_id"]);
-          }
         }
       }
       return true;

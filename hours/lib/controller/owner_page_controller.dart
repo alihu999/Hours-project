@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hours/core/function/split_data_to_tables.dart';
@@ -24,6 +23,7 @@ abstract class OwnerPageController extends GetxController {
   calculateSalary(int totalminute);
   deleteRow(int id);
   deleteMonthTable(int firstId, int lastId);
+  restoreData();
 }
 
 class OwnerPageControllerImp extends OwnerPageController {
@@ -99,13 +99,19 @@ class OwnerPageControllerImp extends OwnerPageController {
   }
 
   @override
-  deleteEmploye(Employe employe) {
-    employe.delete();
-    Get.back();
-    successfulSnackBar("The employee record has been deleted successfully");
-    getEmployes();
-    sqlDb.dropTable("${employe.firstName}_${employe.lastName}");
-    update();
+  deleteEmploye(Employe employe) async {
+    bool res = await deletDocument("${employe.firstName}_${employe.lastName}");
+    if (res) {
+      employe.delete();
+      Get.back();
+      successfulSnackBar("The employee record has been deleted successfully");
+      getEmployes();
+      sqlDb.dropTable("${employe.firstName}_${employe.lastName}");
+      update();
+    } else {
+      Get.back();
+      errorSnackBar("No internet connection, Try again later");
+    }
   }
 
   @override
@@ -189,22 +195,13 @@ class OwnerPageControllerImp extends OwnerPageController {
         middleText: "Do you want delete the Row?",
         onCancel: () {},
         onConfirm: () async {
-          final connectivityResult = await Connectivity().checkConnectivity();
-          if (connectivityResult != ConnectivityResult.none) {
-            //delete row from table in database
-            int respons = await sqlDb.deleteRow(tableName, id);
-            //delete row from firebase
-            await deleteRecord(tableName, id);
-            if (respons == 1) {
-              //show sucessful snackBar
-              Get.back();
-              successfulSnackBar("the Row has been deleted");
-              update();
-            }
-          } else {
-            await sqlDb.updateData(tableName, "upload", "2", id);
+          //delete row from table in database
+          int respons = await sqlDb.deleteRow(tableName, id);
+          if (respons == 1) {
+            //show sucessful snackBar
             Get.back();
-            errorSnackBar("The row will be deleted when internet is available");
+            successfulSnackBar("the Row has been deleted");
+            update();
           }
         });
   }
@@ -231,5 +228,16 @@ class OwnerPageControllerImp extends OwnerPageController {
     Get.defaultDialog(
         title: "calculate Salary", content: const CalculateSalary());
     totalMinute = totalminute;
+  }
+
+  @override
+  restoreData() async {
+    Map firebaseData = await getAllFirebaseData();
+    for (var employee in employList) {
+      String tablename = "${employee.firstName}_${employee.lastName}";
+      if (firebaseData.keys.contains(tablename)) {
+        print(tablename);
+      }
+    }
   }
 }

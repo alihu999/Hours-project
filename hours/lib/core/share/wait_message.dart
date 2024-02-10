@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 waitMassege() {
   return showDialog(
+      barrierDismissible: false,
       context: Get.context!,
       builder: (context) => const Column(
             mainAxisAlignment: MainAxisAlignment.center,

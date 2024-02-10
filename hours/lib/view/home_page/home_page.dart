@@ -8,7 +8,7 @@ import 'package:hours/core/share/custom_snackbar.dart';
 import 'widget/change_mode_dialog.dart';
 import 'widget/clock_date.dart';
 import 'widget/employe_list.dart';
-import 'widget/wait_message.dart';
+import '../../core/share/wait_message.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -5,6 +5,7 @@ import 'package:hours/core/constant/app_colors.dart';
 import 'package:hours/core/constant/app_routes.dart';
 
 import '../../controller/employe_controller.dart';
+import '../../core/share/wait_message.dart';
 import '../employee_records.dart/widget/table_of_data.dart';
 import 'widget/add_employe_dialog.dart';
 import 'widget/employe_list.dart';
@@ -26,6 +27,20 @@ class OwnerPage extends StatelessWidget {
           ),
           centerTitle: true,
           backgroundColor: AppColors.secondColors,
+          actions: [
+            Container(
+                margin: const EdgeInsets.only(right: 10),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.cloud_download,
+                  ),
+                  onPressed: () async {
+                    waitMassege();
+                    await controller.restoreData();
+                    Get.back();
+                  },
+                ))
+          ],
         ),
         body: Row(
           children: [
