@@ -103,4 +103,12 @@ SELECT $timeName FROM $tableName WHERE _id=$id
         """ DELETE FROM $tableName WHERE _id BETWEEN $firstId AND $lastId """);
     return respons;
   }
+
+  insertDataFromfirebase(String tableName, Map record) async {
+    Database? mydb = await db;
+    await mydb!.rawInsert('''
+   INSERT INTO $tableName(date,startAt,finishAt,breakH,workH)
+    VALUES("${record["date"]}","${record["startAt"]}","${record["finishAt"]}","${record["breakH"]}","${record["workH"]}")
+''');
+  }
 }

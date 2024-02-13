@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hours/core/share/custom_snackbar.dart';
 
 Future<int> uploadRecord(String document, Map record) async {
   Map<String, dynamic> convertedRecord = {};
@@ -50,22 +52,33 @@ deletDocument(String document) async {
 getAllFirebaseData() async {
   QuerySnapshot<Map<String, dynamic>> allData;
   Map<String, List> dataFirebase = {};
-  try {
-    allData = await FirebaseFirestore.instance.collection("branch1").get();
+  allData = await FirebaseFirestore.instance.collection("branch1").get();
 
-    for (QueryDocumentSnapshot<Map<String, dynamic>> element in allData.docs) {
-      List<Map> dataDocument = [];
-      element.data().forEach(
-        (key, value) {
-          dataDocument.add(value);
-        },
-      );
-      dataFirebase[element.id] = dataDocument;
-    }
-    return dataFirebase;
-  } catch (e) {
-    return {"error": e};
+  for (QueryDocumentSnapshot<Map<String, dynamic>> element in allData.docs) {
+    List<Map> dataDocument = [];
+    element.data().forEach(
+      (key, value) {
+        dataDocument.add(value);
+      },
+    );
+    dataFirebase[element.id] = dataDocument;
   }
+  return dataFirebase;
 }
 
-handeldata(QueryDocumentSnapshot<Map<String, dynamic>> document) {}
+firebsaeSignIn(String email, String password) async {
+  try {
+    var respons = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+
+    return respons;
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      errorSnackBar("Make sure the email is correct");
+    } else if (e.code == 'wrong-password') {
+      errorSnackBar("Make sure the password is correct");
+    } else {
+      errorSnackBar("Make sure the password and Email is correct");
+    }
+  }
+}

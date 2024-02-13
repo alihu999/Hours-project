@@ -48,8 +48,8 @@ class LoginPage extends StatelessWidget {
                 validator: (val) => validationEmail(val!),
                 textController: controller.email,
                 onFieldSubmitted: (val) {
-                  FocusScope.of(context)
-                      .requestFocus(controller.passwordFocusNode);
+                  /* FocusScope.of(context)
+                      .requestFocus(controller.passwordFocusNode);*/
                 },
                 formState: controller.emailFormState,
               ),
@@ -79,16 +79,24 @@ class LoginPage extends StatelessWidget {
                   ),
                 ],
               ),
-              MaterialButton(
-                  color: AppColors.firstColors,
-                  height: 45,
-                  onPressed: () {
-                    controller.login();
-                  },
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(color: Colors.white, fontSize: 17),
-                  )),
+              GetX<LogInControllerImp>(builder: (context) {
+                return MaterialButton(
+                    color: AppColors.firstColors,
+                    height: 45,
+                    onPressed: () {
+                      controller.login();
+                    },
+                    child: controller.processLogin.value == true
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 3,
+                            strokeAlign: -2,
+                          )
+                        : const Text(
+                            "Login",
+                            style: TextStyle(color: Colors.white, fontSize: 17),
+                          ));
+              }),
               Row(
                 children: [
                   const Text(

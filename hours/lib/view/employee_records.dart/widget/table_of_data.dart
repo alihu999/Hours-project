@@ -14,7 +14,10 @@ class TableOfData extends StatelessWidget {
           future: controller.getEmployeeTable(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const Center(child: CircleAvatar());
+              return Center(
+                  child: CircularProgressIndicator(
+                color: AppColors.secondColors,
+              ));
             } else if (snapshot.data!.isEmpty) {
               return const Center(child: Text("no data available"));
             } else {

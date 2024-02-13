@@ -23,7 +23,6 @@ abstract class OwnerPageController extends GetxController {
   calculateSalary(int totalminute);
   deleteRow(int id);
   deleteMonthTable(int firstId, int lastId);
-  restoreData();
 }
 
 class OwnerPageControllerImp extends OwnerPageController {
@@ -44,6 +43,8 @@ class OwnerPageControllerImp extends OwnerPageController {
   int totalMinute = 0;
   RxDouble salary = 0.0.obs;
 
+  MyServices myServices = Get.find();
+
   @override
   void onInit() {
     firstNameController = TextEditingController();
@@ -60,7 +61,7 @@ class OwnerPageControllerImp extends OwnerPageController {
 
   @override
   getEmployes() {
-    employList = MyServices.getEmploye().values.toList();
+    employList = myServices.getEmploye().values.toList();
   }
 
   @override
@@ -72,7 +73,7 @@ class OwnerPageControllerImp extends OwnerPageController {
         ..firstName = firstNameController.text.trim()
         ..lastName = lastNameController.text.trim()
         ..status = "isStoped";
-      MyServices.getEmploye().add(employe);
+      myServices.getEmploye().add(employe);
       sqlDb.createTable(
           "${firstNameController.text.trim()}_${lastNameController.text.trim()}");
 
@@ -228,16 +229,5 @@ class OwnerPageControllerImp extends OwnerPageController {
     Get.defaultDialog(
         title: "calculate Salary", content: const CalculateSalary());
     totalMinute = totalminute;
-  }
-
-  @override
-  restoreData() async {
-    Map firebaseData = await getAllFirebaseData();
-    for (var employee in employList) {
-      String tablename = "${employee.firstName}_${employee.lastName}";
-      if (firebaseData.keys.contains(tablename)) {
-        print(tablename);
-      }
-    }
   }
 }

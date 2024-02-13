@@ -5,12 +5,14 @@ import 'package:hours/firebase_options.dart';
 import 'package:hours/routes.dart';
 import 'package:hours/theme.dart';
 import 'package:get/get.dart';
+import 'package:hours/view/home_page/home_page.dart';
 import 'package:hours/view/login_page/login_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initialServices();
+
   runApp(const MyApp());
 }
 

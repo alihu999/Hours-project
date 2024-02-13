@@ -27,6 +27,7 @@ class EmployeControllerImp extends EmployeController {
 
   SqlDb sqlDb = SqlDb();
   int currentId = 0;
+  MyServices myServices = Get.find();
 
   @override
   void onInit() {
@@ -37,13 +38,13 @@ class EmployeControllerImp extends EmployeController {
 
   @override
   void onClose() {
-    MyServices.getEmploye().close();
+    myServices.getEmploye().close();
     super.onClose();
   }
 
   @override
   getEmployes() {
-    employList.value = MyServices.getEmploye().values.toList();
+    employList.value = myServices.getEmploye().values.toList();
   }
 
   @override
