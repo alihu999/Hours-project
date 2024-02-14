@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hours/core/share/custom_snackbar.dart';
 
 Future<int> uploadRecord(String document, Map record) async {
+  String email = FirebaseAuth.instance.currentUser!.email!;
+  String collectionName = email.substring(0, email.indexOf("@"));
   Map<String, dynamic> convertedRecord = {};
   record.forEach((key, value) {
     if (key.toString() != "upload" &&
@@ -19,7 +21,7 @@ Future<int> uploadRecord(String document, Map record) async {
   if (connectivityResult != ConnectivityResult.none) {
     try {
       await FirebaseFirestore.instance
-          .collection("branch1")
+          .collection(collectionName)
           .doc(document)
           .set(dataToUpload, SetOptions(merge: true));
       return 1;
@@ -50,9 +52,11 @@ deletDocument(String document) async {
 }
 
 getAllFirebaseData() async {
+  String email = FirebaseAuth.instance.currentUser!.email!;
+  String collectionName = email.substring(0, email.indexOf("@"));
   QuerySnapshot<Map<String, dynamic>> allData;
   Map<String, List> dataFirebase = {};
-  allData = await FirebaseFirestore.instance.collection("branch1").get();
+  allData = await FirebaseFirestore.instance.collection(collectionName).get();
 
   for (QueryDocumentSnapshot<Map<String, dynamic>> element in allData.docs) {
     List<Map> dataDocument = [];

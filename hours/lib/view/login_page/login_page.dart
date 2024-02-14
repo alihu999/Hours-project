@@ -48,8 +48,8 @@ class LoginPage extends StatelessWidget {
                 validator: (val) => validationEmail(val!),
                 textController: controller.email,
                 onFieldSubmitted: (val) {
-                  /* FocusScope.of(context)
-                      .requestFocus(controller.passwordFocusNode);*/
+                  FocusScope.of(context)
+                      .requestFocus(controller.passwordFocusNode);
                 },
                 formState: controller.emailFormState,
               ),
@@ -62,10 +62,6 @@ class LoginPage extends StatelessWidget {
                     suffixicon: const Icon(Icons.lock_outline),
                     validator: (val) => validationPassword(val!),
                     textController: controller.password,
-                    onFieldSubmitted: (val) {
-                      FocusScope.of(context)
-                          .requestFocus(controller.passwordFocusNode);
-                    },
                     formState: controller.passwordFormState,
                   ),
                   Align(

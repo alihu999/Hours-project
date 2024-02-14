@@ -14,7 +14,7 @@ class OwnerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OwnerPageControllerImp controller = Get.put(OwnerPageControllerImp());
+    Get.put(OwnerPageControllerImp());
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width > 450 ? false : true;
     return PopScope(
@@ -63,7 +63,6 @@ class OwnerPage extends StatelessWidget {
         ),
       ),
       onPopInvoked: (didPop) {
-        controller.tableName = "";
         EmployeControllerImp employecontroller = Get.find();
         employecontroller.getEmployes();
       },
