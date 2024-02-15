@@ -54,6 +54,8 @@ class LogInControllerImp extends LogInController {
         var respons =
             await firebsaeSignIn(email.text.trim(), password.text.trim());
         if (respons != null) {
+          await myServices.sharedPreferences
+              .setString("password", password.text.trim());
           firebaseData = await getAllFirebaseData();
           if (firebaseData.isNotEmpty) {
             Get.defaultDialog(

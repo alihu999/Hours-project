@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hours/core/constant/app_routes.dart';
+import 'package:hours/core/services/services.dart';
+import 'package:hours/core/share/custom_snackbar.dart';
 
 abstract class HomePageController extends GetxController {
   updateTime();
@@ -19,7 +21,7 @@ class HomePageControllerImp extends HomePageController {
 
   late TextEditingController passwordController;
   late GlobalKey<FormState> passwordFormState;
-
+  MyServices myServices = Get.find();
   @override
   void onInit() {
     passwordController = TextEditingController();
@@ -37,8 +39,13 @@ class HomePageControllerImp extends HomePageController {
   }
 
   @override
-  checkOwnerPassword() {
-    Get.back();
-    Get.toNamed(AppRoutes.ownerPage);
+  checkOwnerPassword() async {
+    String? password = myServices.sharedPreferences.getString("password");
+    if (passwordController.text.trim() == password) {
+      Get.back();
+      Get.toNamed(AppRoutes.ownerPage);
+    } else {
+      errorSnackBar("The password is incorrect");
+    }
   }
 }
