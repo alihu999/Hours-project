@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hours/controller/home_page_controller.dart';
 import 'package:hours/core/constant/app_colors.dart';
+import 'package:hours/core/constant/app_routes.dart';
 
 import '../../../core/share/custom_textfiled.dart';
 
@@ -12,7 +13,7 @@ class ChangeModeDialog extends GetView<HomePageControllerImp> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(right: 15, left: 15),
-      height: 200,
+      height: 225,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -36,6 +37,14 @@ class ChangeModeDialog extends GetView<HomePageControllerImp> {
               child: const Text(
                 "Submit",
                 style: TextStyle(color: Colors.white),
+              )),
+          TextButton(
+              onPressed: () {
+                Get.toNamed(AppRoutes.resetPasswordPage);
+              },
+              child: const Text(
+                "Reset password",
+                style: TextStyle(fontSize: 15),
               ))
         ],
       ),

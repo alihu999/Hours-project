@@ -4,4 +4,5 @@ class AppRoutes {
   static const String employeeRecordsPage = "/employeeRecordsPage";
   static const String addEmployeePage = "/addEmployeePage";
   static const String loginPage = "/loginPage";
+  static const String resetPasswordPage = "/resetPasswordPage";
 }

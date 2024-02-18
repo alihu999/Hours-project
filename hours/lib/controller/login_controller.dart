@@ -82,12 +82,12 @@ class LogInControllerImp extends LogInController {
         ..firstName = tableName.substring(0, tableName.indexOf("_"))
         ..lastName = tableName.substring(tableName.indexOf("_") + 1)
         ..status = "isStoped";
-      myServices.getEmploye().add(employe);
+      await myServices.getEmploye().add(employe);
       await sqlDb.createTable(tableName);
       for (Map record in firebaseData[tableName]) {
         await sqlDb.insertDataFromfirebase(tableName, record);
       }
-      Get.offAllNamed(AppRoutes.homePage);
     }
+    Get.offAllNamed(AppRoutes.homePage);
   }
 }

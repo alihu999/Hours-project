@@ -44,6 +44,7 @@ class HomePageControllerImp extends HomePageController {
     if (passwordController.text.trim() == password) {
       Get.back();
       Get.toNamed(AppRoutes.ownerPage);
+      passwordController.clear();
     } else {
       errorSnackBar("The password is incorrect");
     }

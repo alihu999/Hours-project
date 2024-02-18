@@ -63,6 +63,7 @@ class LoginPage extends StatelessWidget {
                     validator: (val) => validationPassword(val!),
                     textController: controller.password,
                     formState: controller.passwordFormState,
+                    focusNode: controller.passwordFocusNode,
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
