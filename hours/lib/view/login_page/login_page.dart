@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
           margin: isMobile
               ? null
               : EdgeInsets.only(right: width * 0.25, left: width * 0.25),
-          height: height * 0.75,
+          height: height * 0.50,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -53,28 +53,15 @@ class LoginPage extends StatelessWidget {
                 },
                 formState: controller.emailFormState,
               ),
-              Column(
-                children: [
-                  CustomTextFiled(
-                    lable: "password",
-                    isPassword: true,
-                    filedColors: AppColors.firstColors,
-                    suffixicon: const Icon(Icons.lock_outline),
-                    validator: (val) => validationPassword(val!),
-                    textController: controller.password,
-                    formState: controller.passwordFormState,
-                    focusNode: controller.passwordFocusNode,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "Forget Password?",
-                          style: TextStyle(fontSize: 17),
-                        )),
-                  ),
-                ],
+              CustomTextFiled(
+                lable: "password",
+                isPassword: true,
+                filedColors: AppColors.firstColors,
+                suffixicon: const Icon(Icons.lock_outline),
+                validator: (val) => validationPassword(val!),
+                textController: controller.password,
+                formState: controller.passwordFormState,
+                focusNode: controller.passwordFocusNode,
               ),
               GetX<LogInControllerImp>(builder: (context) {
                 return MaterialButton(
@@ -94,23 +81,6 @@ class LoginPage extends StatelessWidget {
                             style: TextStyle(color: Colors.white, fontSize: 17),
                           ));
               }),
-              Row(
-                children: [
-                  const Text(
-                    "Don't have account?",
-                    style: TextStyle(fontSize: 17),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "Sign up",
-                          style: TextStyle(fontSize: 17),
-                        )),
-                  ),
-                ],
-              )
             ],
           ),
         ),

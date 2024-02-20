@@ -47,6 +47,7 @@ dependencies:
   connectivity_plus: ^5.0.2
   firebase_auth: ^4.17.4
   shared_preferences: ^2.2.2
+  intl_phone_field: ^3.2.0
 
 flutter_native_splash:
   android: true
