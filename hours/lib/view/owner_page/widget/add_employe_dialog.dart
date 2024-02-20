@@ -26,6 +26,7 @@ class AddEmployeDialog extends GetView<OwnerPageControllerImp> {
               suffixicon: const Icon(Icons.person),
               validator: (val) => validationEmployeName(val!),
               textController: controller.firstNameController,
+              keyboardType: TextInputType.name,
               onFieldSubmitted: (val) {
                 FocusScope.of(context)
                     .requestFocus(controller.lastNameFocusNode);
@@ -41,6 +42,7 @@ class AddEmployeDialog extends GetView<OwnerPageControllerImp> {
               validator: (val) => validationEmployeName(val!),
               textController: controller.lastNameController,
               formState: controller.lastNameFormState,
+              keyboardType: TextInputType.name,
             ),
             MaterialButton(
                 color: AppColors.secondColors,

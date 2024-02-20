@@ -23,6 +23,10 @@ class ResetPasswordPageControllerImp extends ResetPasswordPageController {
 
   MyServices myServices = Get.find();
 
+  RxBool showcurrentPassword = false.obs;
+  RxBool shownewPassword = false.obs;
+  RxBool showconfirmNewPassword = false.obs;
+
   @override
   void onInit() {
     currentPassword = TextEditingController();

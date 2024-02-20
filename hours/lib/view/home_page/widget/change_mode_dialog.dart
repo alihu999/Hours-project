@@ -18,17 +18,30 @@ class ChangeModeDialog extends GetView<HomePageControllerImp> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           const Text("Please Enter password"),
-          CustomTextFiled(
-            lable: "password",
-            isPassword: true,
-            filedColors: AppColors.firstColors,
-            suffixicon: const Icon(Icons.lock_outline),
-            formState: controller.passwordFormState,
-            textController: controller.passwordController,
-            validator: (val) {
-              return null;
-            },
-          ),
+          GetX<HomePageControllerImp>(builder: (controller) {
+            return CustomTextFiled(
+              lable: "password",
+              isPassword: !controller.showPassword.value,
+              filedColors: AppColors.firstColors,
+              formState: controller.passwordFormState,
+              textController: controller.passwordController,
+              keyboardType: TextInputType.visiblePassword,
+              suffixicon: IconButton(
+                  onPressed: () {
+                    controller.showPassword.value =
+                        !controller.showPassword.value;
+                  },
+                  icon: Icon(
+                    controller.showPassword.value
+                        ? Icons.lock_open_outlined
+                        : Icons.lock_outline,
+                    color: AppColors.firstColors,
+                  )),
+              validator: (val) {
+                return null;
+              },
+            );
+          }),
           MaterialButton(
               color: AppColors.firstColors,
               onPressed: () {

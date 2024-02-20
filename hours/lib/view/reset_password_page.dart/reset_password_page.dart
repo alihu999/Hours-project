@@ -38,55 +38,94 @@ class ResetPasswordPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text("please Enter current password and new password"),
-                CustomTextFiled(
-                  lable: "current password",
-                  isPassword: true,
-                  filedColors: AppColors.firstColors,
-                  suffixicon: const Icon(Icons.lock_outline),
-                  validator: (val) =>
-                      controller.validationCurrentPassword(val!),
-                  textController: controller.currentPassword,
-                  formState: controller.currentPasswordFormState,
-                  onFieldSubmitted: (val) {
-                    if (controller.currentPasswordFormState.currentState!
-                        .validate()) {
-                      FocusScope.of(context)
-                          .requestFocus(controller.newPasswordFocusNode);
-                    }
-                  },
-                ),
-                CustomTextFiled(
-                  lable: "New password",
-                  isPassword: true,
-                  filedColors: AppColors.firstColors,
-                  suffixicon: const Icon(Icons.lock_outline),
-                  validator: (val) => validationPassword(val!),
-                  textController: controller.newPassword,
-                  formState: controller.newPasswordFormState,
-                  focusNode: controller.newPasswordFocusNode,
-                  onFieldSubmitted: (val) {
-                    if (controller.newPasswordFormState.currentState!
-                        .validate()) {
-                      FocusScope.of(context)
-                          .requestFocus(controller.confirmNewPasswordFocusNode);
-                    }
-                  },
-                ),
-                CustomTextFiled(
-                  lable: "confirm password",
-                  isPassword: true,
-                  filedColors: AppColors.firstColors,
-                  suffixicon: const Icon(Icons.lock_outline),
-                  validator: (val) =>
-                      controller.validationConfirmNewPassword(val!),
-                  textController: controller.confirmNewPassword,
-                  formState: controller.confirmNewPasswordFormState,
-                  focusNode: controller.confirmNewPasswordFocusNode,
-                  onFieldSubmitted: (val) {
-                    controller.confirmNewPasswordFormState.currentState!
-                        .validate();
-                  },
-                ),
+                GetX<ResetPasswordPageControllerImp>(builder: (controller) {
+                  return CustomTextFiled(
+                    lable: "current password",
+                    isPassword: !controller.showcurrentPassword.value,
+                    filedColors: AppColors.firstColors,
+                    suffixicon: IconButton(
+                        onPressed: () {
+                          controller.showcurrentPassword.value =
+                              !controller.showcurrentPassword.value;
+                        },
+                        icon: Icon(
+                          controller.showcurrentPassword.value
+                              ? Icons.lock_open_outlined
+                              : Icons.lock_outline,
+                          color: AppColors.firstColors,
+                        )),
+                    validator: (val) =>
+                        controller.validationCurrentPassword(val!),
+                    textController: controller.currentPassword,
+                    formState: controller.currentPasswordFormState,
+                    keyboardType: TextInputType.visiblePassword,
+                    onFieldSubmitted: (val) {
+                      if (controller.currentPasswordFormState.currentState!
+                          .validate()) {
+                        FocusScope.of(context)
+                            .requestFocus(controller.newPasswordFocusNode);
+                      }
+                    },
+                  );
+                }),
+                GetX<ResetPasswordPageControllerImp>(builder: (controller) {
+                  return CustomTextFiled(
+                    lable: "New password",
+                    isPassword: !controller.shownewPassword.value,
+                    filedColors: AppColors.firstColors,
+                    suffixicon: IconButton(
+                        onPressed: () {
+                          controller.shownewPassword.value =
+                              !controller.shownewPassword.value;
+                        },
+                        icon: Icon(
+                          controller.shownewPassword.value
+                              ? Icons.lock_open_outlined
+                              : Icons.lock_outline,
+                          color: AppColors.firstColors,
+                        )),
+                    validator: (val) => validationPassword(val!),
+                    textController: controller.newPassword,
+                    formState: controller.newPasswordFormState,
+                    focusNode: controller.newPasswordFocusNode,
+                    keyboardType: TextInputType.visiblePassword,
+                    onFieldSubmitted: (val) {
+                      if (controller.newPasswordFormState.currentState!
+                          .validate()) {
+                        FocusScope.of(context).requestFocus(
+                            controller.confirmNewPasswordFocusNode);
+                      }
+                    },
+                  );
+                }),
+                GetX<ResetPasswordPageControllerImp>(builder: (controller) {
+                  return CustomTextFiled(
+                    lable: "confirm password",
+                    isPassword: !controller.showconfirmNewPassword.value,
+                    filedColors: AppColors.firstColors,
+                    suffixicon: IconButton(
+                        onPressed: () {
+                          controller.showconfirmNewPassword.value =
+                              !controller.showconfirmNewPassword.value;
+                        },
+                        icon: Icon(
+                          controller.showconfirmNewPassword.value
+                              ? Icons.lock_open_outlined
+                              : Icons.lock_outline,
+                          color: AppColors.firstColors,
+                        )),
+                    validator: (val) =>
+                        controller.validationConfirmNewPassword(val!),
+                    textController: controller.confirmNewPassword,
+                    formState: controller.confirmNewPasswordFormState,
+                    focusNode: controller.confirmNewPasswordFocusNode,
+                    keyboardType: TextInputType.visiblePassword,
+                    onFieldSubmitted: (val) {
+                      controller.confirmNewPasswordFormState.currentState!
+                          .validate();
+                    },
+                  );
+                }),
                 MaterialButton(
                     color: AppColors.firstColors,
                     onPressed: () {

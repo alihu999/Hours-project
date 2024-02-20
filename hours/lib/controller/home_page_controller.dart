@@ -22,6 +22,8 @@ class HomePageControllerImp extends HomePageController {
   late TextEditingController passwordController;
   late GlobalKey<FormState> passwordFormState;
   MyServices myServices = Get.find();
+  RxBool showPassword = false.obs;
+
   @override
   void onInit() {
     passwordController = TextEditingController();

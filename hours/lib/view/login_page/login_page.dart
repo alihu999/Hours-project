@@ -47,23 +47,37 @@ class LoginPage extends StatelessWidget {
                 suffixicon: const Icon(Icons.email_outlined),
                 validator: (val) => validationEmail(val!),
                 textController: controller.email,
+                keyboardType: TextInputType.emailAddress,
                 onFieldSubmitted: (val) {
                   FocusScope.of(context)
                       .requestFocus(controller.passwordFocusNode);
                 },
                 formState: controller.emailFormState,
               ),
-              CustomTextFiled(
-                lable: "password",
-                isPassword: true,
-                filedColors: AppColors.firstColors,
-                suffixicon: const Icon(Icons.lock_outline),
-                validator: (val) => validationPassword(val!),
-                textController: controller.password,
-                formState: controller.passwordFormState,
-                focusNode: controller.passwordFocusNode,
-              ),
-              GetX<LogInControllerImp>(builder: (context) {
+              GetX<LogInControllerImp>(builder: (controller) {
+                return CustomTextFiled(
+                  lable: "password",
+                  isPassword: !controller.showPassword.value,
+                  filedColors: AppColors.firstColors,
+                  validator: (val) => validationPassword(val!),
+                  textController: controller.password,
+                  formState: controller.passwordFormState,
+                  focusNode: controller.passwordFocusNode,
+                  keyboardType: TextInputType.visiblePassword,
+                  suffixicon: IconButton(
+                      onPressed: () {
+                        controller.showPassword.value =
+                            !controller.showPassword.value;
+                      },
+                      icon: Icon(
+                        controller.showPassword.value
+                            ? Icons.lock_open_outlined
+                            : Icons.lock_outline,
+                        color: AppColors.firstColors,
+                      )),
+                );
+              }),
+              GetX<LogInControllerImp>(builder: (controller) {
                 return MaterialButton(
                     color: AppColors.firstColors,
                     height: 45,

@@ -4,23 +4,26 @@ class CustomTextFiled extends StatelessWidget {
   final bool isPassword;
   final String lable;
   final Color filedColors;
-  final Icon suffixicon;
+  final Widget? suffixicon;
   final String? Function(String?)? validator;
   final TextEditingController textController;
   final GlobalKey<FormState> formState;
   final FocusNode? focusNode;
   final void Function(String)? onFieldSubmitted;
-  const CustomTextFiled(
-      {super.key,
-      required this.isPassword,
-      required this.lable,
-      required this.filedColors,
-      required this.suffixicon,
-      required this.validator,
-      required this.textController,
-      required this.formState,
-      this.focusNode,
-      this.onFieldSubmitted});
+  final TextInputType keyboardType;
+  const CustomTextFiled({
+    super.key,
+    required this.isPassword,
+    required this.lable,
+    required this.filedColors,
+    this.suffixicon,
+    required this.validator,
+    required this.textController,
+    required this.formState,
+    this.focusNode,
+    this.onFieldSubmitted,
+    required this.keyboardType,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,7 @@ class CustomTextFiled extends StatelessWidget {
         cursorColor: filedColors,
         focusNode: focusNode,
         onFieldSubmitted: onFieldSubmitted,
+        keyboardType: keyboardType,
         decoration: InputDecoration(
             label: Text(lable),
             labelStyle: TextStyle(color: filedColors),

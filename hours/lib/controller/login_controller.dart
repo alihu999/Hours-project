@@ -31,6 +31,7 @@ class LogInControllerImp extends LogInController {
   MyServices myServices = Get.find();
 
   RxBool processLogin = false.obs;
+  RxBool showPassword = false.obs;
   @override
   void onInit() {
     email = TextEditingController();
