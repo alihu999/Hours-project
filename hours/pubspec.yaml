@@ -47,7 +47,6 @@ dependencies:
   connectivity_plus: ^5.0.2
   firebase_auth: ^4.17.4
   shared_preferences: ^2.2.2
-  intl_phone_field: ^3.2.0
 
 flutter_native_splash:
   android: true
@@ -63,12 +62,6 @@ dev_dependencies:
     sdk: flutter
   hive_generator: ^2.0.1
   build_runner: ^2.4.7
-  flutter_launcher_icons: "^0.13.1"
-
-flutter_launcher_icons:
-  image_path: "assets/images/icon.png"
-  android: true
-  ios: true
 
 
 

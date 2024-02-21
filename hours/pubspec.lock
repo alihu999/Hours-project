@@ -145,14 +145,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
-  cli_util:
-    dependency: transitive
-    description:
-      name: cli_util
-      sha256: c05b7406fdabc7a49a3929d4af76bcaccbbffcbcdcf185b082e1ae07da323d19
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.1"
   clock:
     dependency: transitive
     description:
@@ -350,14 +342,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_launcher_icons:
+  flutter_lints:
     dependency: "direct dev"
     description:
-      name: flutter_launcher_icons
-      sha256: "526faf84284b86a4cb36d20a5e45147747b7563d921373d4ee0559c54fcdbcea"
+      name: flutter_lints
+      sha256: a25a15ebbdfc33ab1cd26c63a6ee519df92338a9c10f122adda92938253bef04
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.1"
+    version: "2.0.3"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -464,14 +456,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.4"
-  intl_phone_field:
-    dependency: "direct main"
-    description:
-      name: intl_phone_field
-      sha256: "73819d3dfcb68d2c85663606f6842597c3ddf6688ac777f051b17814fe767bbf"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
   io:
     dependency: transitive
     description:
@@ -496,6 +480,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  lints:
+    dependency: transitive
+    description:
+      name: lints
+      sha256: "0a217c6c989d21039f1498c3ed9f3ed71b354e69873f13a8dfc3c9fe76f1b452"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   logging:
     dependency: transitive
     description:

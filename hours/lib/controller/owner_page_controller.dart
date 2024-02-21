@@ -1,8 +1,10 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hours/core/function/split_data_to_tables.dart';
 import 'package:hours/core/function/time_format.dart';
 import 'package:hours/core/share/custom_snackbar.dart';
+import 'package:hours/core/share/wait_message.dart';
 
 import '../core/database/firebase_data.dart';
 import '../core/database/sqldb.dart';
@@ -23,6 +25,7 @@ abstract class OwnerPageController extends GetxController {
   calculateSalary(int totalminute);
   deleteRow(int id);
   deleteMonthTable(int firstId, int lastId);
+  checkIntrnetconnection();
 }
 
 class OwnerPageControllerImp extends OwnerPageController {
@@ -101,14 +104,19 @@ class OwnerPageControllerImp extends OwnerPageController {
 
   @override
   deleteEmploye(Employe employe) async {
-    bool res = await deletDocument("${employe.firstName}_${employe.lastName}");
-    if (res) {
-      employe.delete();
-      Get.back();
-      successfulSnackBar("The employee record has been deleted successfully");
-      getEmployes();
-      sqlDb.dropTable("${employe.firstName}_${employe.lastName}");
-      update();
+    if (await checkIntrnetconnection()) {
+      var res = await deletDocument("${employe.firstName}_${employe.lastName}");
+      if (res) {
+        employe.delete();
+        Get.back();
+        successfulSnackBar("The employee record has been deleted successfully");
+        getEmployes();
+        sqlDb.dropTable("${employe.firstName}_${employe.lastName}");
+        update();
+      } else {
+        Get.back();
+        errorSnackBar("Try again later");
+      }
     } else {
       Get.back();
       errorSnackBar("No internet connection, Try again later");
@@ -196,13 +204,19 @@ class OwnerPageControllerImp extends OwnerPageController {
         middleText: "Do you want delete the Row?",
         onCancel: () {},
         onConfirm: () async {
-          //delete row from table in database
-          int respons = await sqlDb.deleteRow(tableName, id);
-          if (respons == 1) {
-            //show sucessful snackBar
+          if (await checkIntrnetconnection()) {
+            deletRowFirebase(tableName, id);
+            //delete row from table in database
+            int respons = await sqlDb.deleteRow(tableName, id);
+            if (respons == 1) {
+              //show sucessful snackBar
+              Get.back();
+              successfulSnackBar("the Row has been deleted");
+              update();
+            }
+          } else {
             Get.back();
-            successfulSnackBar("the Row has been deleted");
-            update();
+            errorSnackBar("No internet connection, Try again later");
           }
         });
   }
@@ -215,12 +229,21 @@ class OwnerPageControllerImp extends OwnerPageController {
         middleText: "Do you want delete the Table?",
         onCancel: () {},
         onConfirm: () async {
-          int respons = await sqlDb.deleteMultiRow(tableName, firstId, lastId);
-          Get.back();
-          if (respons == 1) {
-            successfulSnackBar("the Table has been deleted");
+          if (await checkIntrnetconnection()) {
+            Get.back();
+            waitMassege();
+            await deleteMultiRowFirebase(tableName, firstId, lastId);
+            int respons =
+                await sqlDb.deleteMultiRow(tableName, firstId, lastId);
+            Get.back();
+            if (respons != 0) {
+              successfulSnackBar("the Table has been deleted");
+            }
+            update();
+          } else {
+            Get.back();
+            errorSnackBar("No internet connection, Try again later");
           }
-          update();
         });
   }
 
@@ -229,5 +252,11 @@ class OwnerPageControllerImp extends OwnerPageController {
     Get.defaultDialog(
         title: "calculate Salary", content: const CalculateSalary());
     totalMinute = totalminute;
+  }
+
+  @override
+  checkIntrnetconnection() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    return connectivityResult != ConnectivityResult.none ? true : false;
   }
 }

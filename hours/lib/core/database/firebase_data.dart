@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hours/core/share/custom_snackbar.dart';
 
 Future<int> uploadRecord(String document, Map record) async {
-  String email = FirebaseAuth.instance.currentUser!.email!;
+  String email = await FirebaseAuth.instance.currentUser!.email!;
   String collectionName = email.substring(0, email.indexOf("@"));
   Map<String, dynamic> convertedRecord = {};
   record.forEach((key, value) {
@@ -33,20 +33,17 @@ Future<int> uploadRecord(String document, Map record) async {
   }
 }
 
-deletDocument(String document) async {
-  final connectivityResult = await Connectivity().checkConnectivity();
-
-  if (connectivityResult != ConnectivityResult.none) {
-    try {
-      await FirebaseFirestore.instance
-          .collection("branch1")
-          .doc(document)
-          .delete();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  } else {
+Future<bool> deletDocument(String document) async {
+  String email = await FirebaseAuth.instance.currentUser!.email!;
+  String collectionName = email.substring(0, email.indexOf("@"));
+  try {
+    await FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(document)
+        .delete();
+    return true;
+  } catch (e) {
+    print(e);
     return false;
   }
 }
@@ -85,4 +82,24 @@ firebsaeSignIn(String email, String password) async {
       errorSnackBar("Make sure the password and Email is correct");
     }
   }
+}
+
+deleteMultiRowFirebase(String document, int firstId, int lastId) async {
+  String email = FirebaseAuth.instance.currentUser!.email!;
+  String collectionName = email.substring(0, email.indexOf("@"));
+  for (int i = firstId; i <= lastId; i++) {
+    await FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(document)
+        .update({'$i': FieldValue.delete()});
+  }
+}
+
+deletRowFirebase(String document, int id) async {
+  String email = FirebaseAuth.instance.currentUser!.email!;
+  String collectionName = email.substring(0, email.indexOf("@"));
+  await FirebaseFirestore.instance
+      .collection(collectionName)
+      .doc(document)
+      .update({'$id': FieldValue.delete()});
 }
